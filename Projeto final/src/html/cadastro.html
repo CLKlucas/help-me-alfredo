@@ -1,46 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Cadastro | Feira Digital de Baturité</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/navbar.css">
 </head>
 <body>
 
     <header>
-        <img src="../img/logotipo.jpg" alt="logotipo da cidade de baturité" width="200px">
+        <!-- O Bootstrap cuida do alinhamento e do menu responsivo. -->
+        <nav class="navbar navbar-expand-lg navbar-feira" >
+            <div class="container-fluid">
+                <a class="navbar-brand" href="inicio.html">
+                    <img class="marca-feira" src="../img/logotipo.jpg" alt="Feira Digital de Baturité" width="180" height="70">
+                </a>    
 
-        <nav class="navbar">
-            <a href="inicio.html">Inicio</a>
-            <a href="destaque.html">Destaque</a>
-            <a href="feirantes.html">Feirantes</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="login.html">Entrar</a>
-            <a href="cadastro.html">Criar Conta</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menu-principal">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menu-principal">
+                    <ul class="navbar-nav me-auto align-items-lg-center">
+                        <li class="nav-item"><a class="nav-link" href="inicio.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="destaque.html">Destaque</a></li>
+                        <li class="nav-item"><a class="nav-link" href="feirantes.html">Feirantes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pedidos.html">Pedidos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-lg-center">
+                        <li class="nav-item"><a class="nav-link" href="login.html">Entrar</a></li>
+                        <li class="nav-item"><a class="btn btn-success" href="cadastro.html">Criar conta</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
 
     </header>
 
-    <main>
+    <main id="conteudo">
         <section class="apresentacao">
-            <p class="letra_peq">NOVA CONTA</p>
-            <h1 class="titulo_h1">Faça parte da feira.</h1>
-            <p class="texto_basico">Crie sua conta para pedir produtos ou divulgar sua produção.</p>
+            <p class="chamada">NOVA CONTA</p>
+            <h1 class="titulo-pagina">Faça parte da feira.</h1>
+            <p class="texto">Crie sua conta para pedir produtos ou divulgar sua produção.</p>
 
         </section>
 
         <div class="cadastro">
-            <h3>Criar Conta</h3>
+            <h2>Criar Conta</h2>
             
-            <form>
+            <form method="post">
+                <!-- Definir o destino (action) quando houver integração com o servidor. -->
                 <label>
                     Nome Completo
-                    <input type="text" required>
+                    <input type="text" id="nome" name="nome" required>
                 </label>
 
                 <label>
                     Tipo de conta
-                    <select id="conta_tipo" required>
+                    <select id="conta_tipo" name="tipo_conta" required>
                         <option value="consumidor">Consumidor</option> 
                         <option value="feirante">Feirante</option>
                     </select>
@@ -48,33 +69,31 @@
 
                 <label>
                     Email
-                    <input type="email" required>
+                    <input type="email" id="email" name="email" required>
                 </label>
 
                 <label>
                     Senha
-                    <input type="password" id="senha" minlength="8" required>
+                    <input type="password" id="senha" name="senha" minlength="8" required>
                 </label>
 
                 <label>
                     Confirmar Senha
-                    <input type="password" id="confirmar_senha" minlength="8" required>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" minlength="8" required>
                 </label>
 
-                <button class="botao_login/singup">Criar conta</button>
+                <!-- Comparar as senhas no JavaScript e validar novamente no servidor. -->
+                <button type="submit" class="botao-enviar">Criar conta</button>
                 <p>Já possui conta? <a href="login.html">Entrar</a>  </p>
                 
             </form>
 
         </div>
 
-
-
     </main>
 
-
-    <footer class="rodapé">
-        <img src="../img/logotipo.jpg" alt="logotipo da cidade de baturité" width="70px">
+    <footer class="rodape">
+        <img src="../img/logotipo.jpg" alt="Logotipo da cidade de Baturité" width="70">
         <p>Produtos locais, relações mais próximas.</p>
 
         <p>Alfredo Borges do Nascimento Neto — Redes de Computadores</p>
@@ -83,5 +102,6 @@
 
     </footer>
     
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

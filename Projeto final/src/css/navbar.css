@@ -1,0 +1,24 @@
+/* Só a identidade visual: o Bootstrap já cuida da responsividade. */
+.navbar-feira {
+    background-color: #ffffff;
+    --bs-navbar-color: #2f843a;
+    --bs-navbar-active-color: #132c1c;
+    border-bottom: #2f843a solid 2px;
+}
+
+/* Enquadra a logo, que tem margens brancas no arquivo original. */
+.marca-feira {
+    width: 180px;
+    height: 70px;
+    border-radius: 10%;
+    object-fit: cover;
+    
+}
+
+.navbar-feira .btn-success {
+    --bs-btn-bg: #2b8235;
+    --bs-btn-border-color: #233329;
+    --bs-btn-hover-bg: #BFEDC4;
+    --bs-btn-hover-color: #233329;
+    --bs-btn-hover-border-color: #63A46C;
+}
