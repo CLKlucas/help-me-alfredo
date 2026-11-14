@@ -1,0 +1,22 @@
+
+body {
+    background-color: #f8fafc;
+    color: #002680;
+}
+
+
+.apresentacao h1 {
+    font-family: "Inter", sans-serif;
+    font-size: 3rem;
+    color: #1D479D;
+}
+
+
+.botao-enviar {
+    background-color: #088344;
+    color: white;
+}
+.botao-enviar:hover {
+    background-color: #002680;
+    color: white;
+}

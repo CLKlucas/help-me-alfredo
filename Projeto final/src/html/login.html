@@ -6,6 +6,9 @@
     <title>Login | Feira Digital de Baturité</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/navbar.css">
+   
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     
@@ -41,39 +44,43 @@
 
     </header>
 
-    <main id="conteudo">
-        
-        <section class="apresentacao">
-            <p class="chamada">Bem-vindo de volta</p>
-            <h1 class="titulo-pagina">Entre na feira Digital</h1>
-            <p>Acesse pedidos, produtos e informações da sua conta.</p>
-        </section>
+    <main id="conteudo" class="container py-5">
 
-        <div id="login">
+        <div class="row g-5">
 
-            <h2>Entrar</h2>
-            <form method="post">
+            <section class="apresentacao col-lg-7">
+                <p class="chamada fw-bold mb-3">Bem-vindo de volta</p>
+                <h1 class="titulo-pagina mb-4">Entre na feira Digital</h1>
+                <p class="fs-5">Acesse pedidos, produtos e informações da sua conta.</p>
+            </section>
+
+
+            <section class="col-lg-5"> 
                 
-                <label>
-                    Email
-                    <input type="email" id="email" name="email" required>
-                </label>
-                
-                <label>
-                    Senha
-                    <input type="password" id="senha" name="senha" minlength="8" required>
-                </label>
+                <div id="login" class="bg-white border rounded-3 p-4 p-md-5">
 
-                <button type="submit" class="botao-enviar">Entrar</button>
+                    <h2 class="h3 fw-bold mb-4">Entrar</h2>
+                    <form method="post">
 
-                <p>Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
-            </form>
+                        <label class="form-label fw-semibold" for="email">E-mail</label>
+                        <input class="form-control mb-3" type="email" id="email" name="email" required>
 
+                        <label class="form-label fw-semibold" for="senha">Senha</label>
+                        <input class="form-control mb-3" type="password" id="senha" name="senha" minlength="8" required>
+
+                        
+                        <button type="submit" class="btn botao-enviar w-100 py-3 fw-semibold">Entrar</button>
+
+                        <p class="mt-4 mb-0">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+                       
+                    </form>
+
+                </div>
+            </section>
         </div>
-
     </main>
 
-    <footer class="rodape">
+    <footer>
         <img src="../img/logotipo.jpg" alt="Logotipo da cidade de Baturité" width="70">
         <p>Produtos locais, relações mais próximas.</p>
 
