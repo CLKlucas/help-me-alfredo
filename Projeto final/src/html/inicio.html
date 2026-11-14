@@ -1,147 +1,193 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Início | Feira Digital de Baturité</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/navbar.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+  </head>
 
-<body>
-
+  <body>
     <header>
+      <nav class="navbar navbar-expand-lg navbar-feira">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="inicio.html">
+            <img
+              class="marca-feira"
+              src="../img/logotipo.jpg"
+              alt="Feira Digital de Baturité"
+              width="180"
+              height="70"
+            />
+          </a>
 
-        
-        <nav class="navbar navbar-expand-lg navbar-feira" >
-            <div class="container-fluid">
-                <a class="navbar-brand" href="inicio.html">
-                    <img class="marca-feira" src="../img/logotipo.jpg" alt="Feira Digital de Baturité" width="180" height="70">
-                </a>    
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu-principal"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#menu-principal">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+          <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav me-auto align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link active" href="inicio.html">Início</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="destaque.html">Destaque</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="feirantes.html">Feirantes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pedidos.html">Pedidos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sobre.html">Sobre</a>
+              </li>
+            </ul>
 
-                <div class="collapse navbar-collapse" id="menu-principal">
-                    <ul class="navbar-nav me-auto align-items-lg-center">
-                        <li class="nav-item"><a class="nav-link active" href="inicio.html">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="destaque.html">Destaque</a></li>
-                        <li class="nav-item"><a class="nav-link" href="feirantes.html">Feirantes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pedidos.html">Pedidos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
-                    </ul>
-
-                    <ul class="navbar-nav align-items-lg-center">
-                        <li class="nav-item"><a class="nav-link" href="login.html">Entrar</a></li>
-                        <li class="nav-item"><a class="btn btn-success" href="cadastro.html">Criar conta</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            <ul class="navbar-nav align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link" href="login.html">Entrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-success" href="cadastro.html">Criar conta</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <main id="conteudo">
-        <section class="apresentacao">
+      <section class="apresentacao">
+        <p class="chamada">Feira livre de Baturité - Ceará</p>
+        <h1 class="titulo-pagina">Da feira de Baturité para a sua rotina.</h1>
+        <p class="texto">
+          Encontre produtores da nossa cidade, consulte o que está disponível e
+          faça seu pedido com simplicidade.
+        </p>
 
-            <p class="chamada">Feira livre de Baturité - Ceará</p>
-            <h1 class="titulo-pagina">Da feira de Baturité para a sua rotina.</h1>
-            <p class="texto">Encontre produtores da nossa cidade, consulte o que está disponível e faça seu pedido com simplicidade.</p>
+        <a href="destaque.html">Explorar produtos</a>
+      </section>
 
-            <a href="destaque.html">Explorar produtos</a>
-
-        </section>
-
-        <section class="convite-feirantes">
+      <section class="convite-feirantes">
         <p class="chamada">É FEIRANTE DE BATURITÉ?</p>
-        <h2 class="titulo-secao">Leve sua banca para mais perto das pessoas.</h2>
+        <h2 class="titulo-secao">
+          Leve sua banca para mais perto das pessoas.
+        </h2>
 
         <a href="cadastro.html">Cadastrar como feirante</a>
-        </section>
+      </section>
 
-        <section class="marketing">
+      <section class="marketing">
+        <h2 class="titulo-secao">Comprar local transforma o entorno.</h2>
+        <p class="texto">
+          Mais transparência para quem compra e mais visibilidade para quem
+          produz.
+        </p>
 
-            <h2 class="titulo-secao">Comprar local transforma o entorno.</h2>
-            <p class="texto">Mais transparência para quem compra e mais visibilidade para quem produz.</p>
+        <ul>
+          <li>
+            <h3 class="titulo-item">Produtos frescos</h3>
+            <p class="texto">
+              Veja disponibilidade e unidade de venda antes de pedir.
+            </p>
+          </li>
 
-            <ul>
-                <li>
+          <li>
+            <h3 class="titulo-item">Relações diretas</h3>
+            <p class="texto">Conheça os produtores por trás de cada produto.</p>
+          </li>
 
-                <h3 class="titulo-item">Produtos frescos</h3>
-                <p class="texto">Veja disponibilidade e unidade de venda antes de pedir.</p>
+          <li>
+            <h3 class="titulo-item">Feira organizada</h3>
+            <p class="texto">
+              Pedidos claros para combinar retirada e pagamento.
+            </p>
+          </li>
+        </ul>
+      </section>
 
-                </li>           
+      <section class="surgimento_feira">
+        <p class="chamada">RAÍZES DA NOSSA FEIRA</p>
 
-                <li>
+        <h2 class="titulo-secao">
+          Uma cidade de serra, café e encontros aos sábados.
+        </h2>
 
-                <h3 class="titulo-item">Relações diretas</h3>
-                <p class="texto">Conheça os produtores por trás de cada produto.</p>
-                
-                </li>    
+        <p class="texto">
+          Baturité reúne memória, produção e comércio no coração do Maciço. A
+          feira livre faz parte dessa rotina: é onde a cidade e municípios
+          vizinhos se encontram para trocar produtos, saberes e conversa.
+        </p>
 
-                <li>
-                    
-               <h3 class="titulo-item">Feira organizada</h3>
-               <p class="texto">Pedidos claros para combinar retirada e pagamento.</p>
-            
-                </li>    
+        <a href="sobre.html">Conheça a história de Baturité</a>
 
-            </ul>
-   
-        </section>
+        <ul class="linha-do-tempo">
+          <li>
+            <span class="titulo-item">1755</span>
+            <span
+              >A Missão de Nossa Senhora da Palma marca a formação do núcleo que
+              daria origem à cidade.</span
+            >
+          </li>
 
-        <section class="surgimento_feira">
+          <li>
+            <span class="titulo-item">1858</span>
+            <span
+              >Baturité é elevada à condição de cidade, com uma trajetória
+              ligada à serra e ao café.</span
+            >
+          </li>
 
-            <p class="chamada">RAÍZES DA NOSSA FEIRA</p>
-
-            <h2 class="titulo-secao">Uma cidade de serra, café e encontros aos sábados.</h2>
-
-            <p class="texto">Baturité reúne memória, produção e comércio no coração do Maciço. 
-                A feira livre faz parte dessa rotina: é onde a cidade e municípios vizinhos se encontram para 
-                trocar produtos, saberes e conversa.</p>
-
-            <a href="sobre.html">Conheça a história de Baturité</a>
-
-            <ul class="linha-do-tempo">
-                <li>
-
-                <span class="titulo-item">1755</span>
-                <span>A Missão de Nossa Senhora da Palma marca a formação do núcleo que daria origem à cidade.</span>
-
-                </li>           
-
-                <li>
-
-                <span class="titulo-item">1858</span>
-                <span>Baturité é elevada à condição de cidade, com uma trajetória ligada à serra e ao café.</span>
-               
-                </li>    
-
-                <li>
-                    
-                <span class="titulo-item">1882</span>
-                <span>A estação ferroviária passa a integrar a história do escoamento e do desenvolvimento local.</span>
-            
-                </li>    
-
-            </ul>
-
-        </section>
- 
+          <li>
+            <span class="titulo-item">1882</span>
+            <span
+              >A estação ferroviária passa a integrar a história do escoamento e
+              do desenvolvimento local.</span
+            >
+          </li>
+        </ul>
+      </section>
     </main>
 
-    <footer class="rodape">
-        <img src="../img/logotipo.jpg" alt="Logotipo da cidade de Baturité" width="70">
-        <p>Produtos locais, relações mais próximas.</p>
-
-        <p>Alfredo Borges do Nascimento Neto — Redes de Computadores</p>
-        <p>Francisco Lucas Gomes Almeida — Engenharia de Software</p>
-        <p>Ryan Lopes Braga Brito — Engenharia de Software</p>
-
+    <footer class="py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <img
+              src="../img/logotipo.jpg"
+              alt="Logotipo da cidade de Baturité"
+              width="170"
+            />
+            <p>Produtos locais, relações mais próximas.</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Links relevantes</h5>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Equipe</h5>
+            <p>Alfredo Borges do Nascimento Neto</p>
+            <p>Francisco Lucas Gomes Almeida</p>
+            <p>Ryan Lopes Braga Brito</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Contato</h5>
+            <p>suporte@gmail.com</p>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+  </body>
 </html>
