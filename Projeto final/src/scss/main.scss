@@ -1,0 +1,9 @@
+// 1. Variáveis customizadas (opcional)
+// $primary: #2f843a;
+
+// 2. Importa o Bootstrap completo a partir do node_modules
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// 3. Importa seus componentes locais
+@import "navbar";
+@import "footer";

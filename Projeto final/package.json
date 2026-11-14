@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "compilar-css": "sass --watch --silence-deprecation=import,if-function,global-builtin,color-functions src/scss/main.scss src/css/style.css"
+  },
+  "devDependencies": {
+    "sass": "^1.108.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
