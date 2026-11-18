@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "feirantes",
+  "info": {
+    "singularName": "feirante",
+    "pluralName": "feirantes",
+    "displayName": "Feirante"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nome_da_barraca": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "biginteger"
+    },
+    "descricao": {
+      "type": "text"
+    },
+    "uid": {
+      "type": "uid",
+      "targetField": "nome_da_barraca"
+    },
+    "media": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

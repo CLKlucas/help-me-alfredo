@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "consumidors",
+  "info": {
+    "singularName": "consumidor",
+    "pluralName": "consumidors",
+    "displayName": "Consumidor"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nome": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "biginteger"
+    },
+    "endereco": {
+      "type": "text"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

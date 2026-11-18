@@ -1,3 +1,4 @@
+
 const allowedMediaTypes = [
   'image/*',
   'video/*',
@@ -25,6 +26,7 @@ module.exports = () => ({
   'users-permissions': {
     config: {
       jwtManagement: 'refresh',
+      register: { allowedFields: ['fullName', 'whatsapp', 'accountType'] },
       sessions: {
         httpOnly: true,
       },
