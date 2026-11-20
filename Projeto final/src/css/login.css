@@ -1,22 +1,27 @@
 
 body {
     background-color: #f8fafc;
-    color: #002680;
+    color: #334155;
 }
 
 
 .apresentacao h1 {
     font-family: "Inter", sans-serif;
     font-size: 3rem;
-    color: #1D479D;
+    color: #002680;
 }
 
+.apresentacao .chamada {
+    color: #1d479d;
+}
 
 .botao-enviar {
     background-color: #088344;
+    border-color: #088344;
     color: white;
 }
 .botao-enviar:hover {
-    background-color: #002680;
+    background-color: #066836;
+    border-color: #066836;
     color: white;
 }

@@ -1,20 +1,21 @@
 body {
   background-color: #ffffff;
-  color: #243247;
+  color: #334155;
 }
 
 .fundo-suave {
-  background-color: #eef3fc;
+  background-color: #f0f4fa;
 }
 
 .chamada {
   letter-spacing: 1px;
+  color: #1d479d;
 }
 
 .titulo-pagina,
 .titulo-secao {
   max-width: 900px;
-  color: #088344;
+  color: #002680;
 }
 
 .titulo-item {
@@ -23,7 +24,7 @@ body {
 
 .texto {
   max-width: 720px;
-  color: #1d479d;
+  color: #334155;
 }
 
 

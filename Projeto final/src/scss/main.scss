@@ -1,5 +1,7 @@
-// 1. Variáveis customizadas (opcional)
-// $primary: #2f843a;
+// 1. Variáveis customizadas (Cores Oficiais de Baturité)
+$primary: #1D479D;
+$success: #088344;
+$body-color: #334155;
 
 // 2. Importa o Bootstrap completo a partir do node_modules
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -7,3 +9,22 @@
 // 3. Importa seus componentes locais
 @import "navbar";
 @import "footer";
+
+// 4. Cores para elementos textuais compartilhados
+.titulo-pagina,
+.titulo-secao {
+  color: #002680;
+}
+
+.chamada {
+  color: #1d479d;
+}
+
+.pedidos a {
+  background-color: #088344;
+  color: #ffffff;
+  &:hover {
+    background-color: #066836;
+    color: #ffffff;
+  }
+}

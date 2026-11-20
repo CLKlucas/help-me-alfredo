@@ -1,6 +1,6 @@
 body {
   background-color: #ffffff;
-  color: #243247;
+  color: #334155;
 }
 
 #conteudo section {
@@ -8,13 +8,13 @@ body {
 }
 
 #conteudo section:nth-child(even) {
-  background-color: #eef3fc;
+  background-color: #f0f4fa;
 }
 
 .chamada {
   display: block;
   margin-bottom: 12px;
-  color: #000000;
+  color: #1d479d;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -24,7 +24,7 @@ body {
 .titulo-pagina {
   max-width: 900px;
   margin: 0 auto 20px;
-  color: #088344;
+  color: #002680;
   font-size: 48px;
   line-height: 1.15;
 }
@@ -32,13 +32,13 @@ body {
 .titulo-secao {
   max-width: 900px;
   margin: 0 auto 16px;
-  color: #088344;
+  color: #002680;
   font-size: 32px;
   line-height: 1.2;
 }
 
 .titulo-item {
-  color: #088344;
+  color: #002680;
   font-size: 18px;
   font-weight: bold;
 }
@@ -46,7 +46,7 @@ body {
 .texto {
   max-width: 720px;
   margin: 0 auto 24px;
-  color: #1d479d;
+  color: #334155;
   font-size: 17px;
   line-height: 1.7;
 }
@@ -72,7 +72,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 28px 24px;
-  border: 1px solid #d7e2f4;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   background-color: #ffffff;
   text-align: left;
@@ -92,7 +92,7 @@ body {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 6px;
-  background-color: #1d479d;
+  background-color: #088344;
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;
@@ -104,7 +104,7 @@ body {
 
 #conteudo section > a:hover,
 .produto-card a:hover {
-  background-color: #002680;
+  background-color: #066836;
   color: #ffffff;
 }
 

@@ -1,9 +1,10 @@
 /* Só a identidade visual: o Bootstrap já cuida da responsividade. */
 .navbar-feira {
     background-color: #ffffff;
-    --bs-navbar-color: #2f843a;
-    --bs-navbar-active-color: #132c1c;
-    border-bottom: #2f843a solid 2px;
+    --bs-navbar-color: #334155;
+    --bs-navbar-hover-color: #1d479d;
+    --bs-navbar-active-color: #1d479d;
+    border-bottom: #e2e8f0 solid 2px;
 }
 
 /* Enquadra a logo, que tem margens brancas no arquivo original. */
@@ -16,9 +17,11 @@
 }
 
 .navbar-feira .btn-success {
-    --bs-btn-bg: #2b8235;
-    --bs-btn-border-color: #233329;
-    --bs-btn-hover-bg: #BFEDC4;
-    --bs-btn-hover-color: #233329;
-    --bs-btn-hover-border-color: #63A46C;
+    --bs-btn-bg: #088344;
+    --bs-btn-border-color: #088344;
+    --bs-btn-hover-bg: #066836;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-border-color: #066836;
+    --bs-btn-active-bg: #05522b;
+    --bs-btn-active-border-color: #05522b;
 }
