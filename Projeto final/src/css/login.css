@@ -16,12 +16,12 @@ body {
 }
 
 .botao-enviar {
-    background-color: #088344;
-    border-color: #088344;
+    background-color: #1D479D;
+    border-color: #1D479D;
     color: white;
 }
 .botao-enviar:hover {
-    background-color: #066836;
-    border-color: #066836;
+    background-color: #002680;
+    border-color: #002680;
     color: white;
 }

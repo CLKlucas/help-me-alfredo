@@ -1,81 +1,165 @@
 # Feira Digital de Baturité
 
-Projeto da cadeira de Desenvolvimento de Software para Web (S4).
+Projeto da cadeira de Desenvolvimento de Software para Web (S4): uma plataforma para aproximar consumidores, feirantes e pequenos produtores de Baturité.
 
-O site é uma feira digital voltada para os feirantes e moradores de Baturité.
+Este README apresenta a proposta geral, os requisitos, a identidade visual, as tecnologias e a organização do projeto. O planejamento detalhado da área administrativa está em [README-ADMIN.md](README-ADMIN.md). As funcionalidades previstas não devem ser interpretadas como já implementadas.
 
-## Como rodar o projeto na sua máquina
+## Consulta rápida
 
-<<<<<<< Updated upstream:Projeto final/src/README.md
-Os comandos abaixo partem da raiz do repositório `help-me-alfredo`.
+- [Proposta e requisitos](#proposta-e-requisitos)
+- [Identidade visual](#identidade-visual)
+- [Perfis e permissões](#perfis-e-permissões)
+- [Tecnologias utilizadas](#tecnologias-utilizadas)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Equipe](#equipe)
+- [Planejamento da página do administrador](README-ADMIN.md)
 
-Se você acabou de clonar o repositório ou vai mexer no código pela primeira vez, precisa ter o Node instalado no seu PC. Depois disso, segue o passo a passo:
-=======
-Precisa ter o **Node.js** (com npm) instalado. Para o servidor local, precisa também do **Python 3** — ou pode usar o Live Server do editor.
->>>>>>> Stashed changes:README.md
+## Proposta e requisitos
 
-1. Abra o terminal na raiz do repositório e entre na pasta do projeto:
-   ```bash
-   cd projeto-final
-   ```
+Esta proposta define os objetivos e requisitos da Feira Digital. A análise de novos feirantes faz parte do planejamento de controle de acesso.
 
-2. Instale as dependências (Bootstrap e Sass):
-   ```bash
-   npm install
-   ```
+### Objetivo geral
 
-3. Inicie o compilador do Sass (só necessário se for mexer em arquivos `.scss`):
-   ```bash
-   npm run compilar-css
-   ```
-   Deixe esse terminal aberto enquanto estiver editando. Toda vez que você salvar um `.scss`, ele atualiza `src/css/style.css` sozinho. Para mudar o visual de `inicio.html`, edite direto `src/css/inicio.css` — não precisa compilar nada.
+Desenvolver uma plataforma web funcional para divulgação e comercialização de produtos de feirantes e pequenos produtores locais, permitindo cadastrar e gerenciar produtos, consultar um catálogo público e realizar pedidos ou reservas.
 
-<<<<<<< Updated upstream:Projeto final/src/README.md
-   Para apenas abrir as páginas depois da instalação, não é necessário manter o Sass rodando: o CSS compilado já está no projeto. O compilador só precisa rodar quando você alterar os arquivos SCSS.
+A aplicação deve possuir autenticação, perfis com permissões diferentes, interface responsiva e integração entre frontend e backend Strapi por API REST, com dados persistidos no banco.
 
-4. Para ver o site funcionando, abra o arquivo `html/inicio.html` no seu navegador (ou use o Live Server do seu editor).
+### Público e impacto esperado
 
-## Onde mexer no código
+- Feirantes e pequenos produtores locais, especialmente quem tem pouca presença digital.
+- Consumidores interessados em consultar produtos, preços e disponibilidade e combinar pedidos.
+- Maior visibilidade para os comerciantes e uma ferramenta centralizada para organizar a divulgação e o atendimento.
 
-- **Páginas (HTML):** ficam dentro de `html/`.
-- **Imagens:** ficam em `img/`.
-- **Estilos (CSS/SCSS):** ficam dentro de `scss/`.
-  - `_navbar.scss`: estilos da barra de navegação.
-  - `_footer.scss`: estilos do rodapé.
-  - `main.scss`: arquivo que junta o Bootstrap com os estilos acima.
+### Requisitos para acompanhar a implementação
 
-> **Atenção:** não edite o arquivo `css/style.css` diretamente. Ele é gerado de forma automática pelo Sass. Se você mexer nele, sua alteração vai ser sobrescrita na próxima vez que alguém salvar um arquivo `.scss`. Sempre edite dentro de `scss/`.
-4. Em outro terminal, ainda dentro de `projeto-final`, suba o servidor local:
-   ```bash
-   python3 -m http.server 8000
-   ```
+As caixas estão desmarcadas como roteiro de verificação. Marcar somente depois de testar a funcionalidade completa, incluindo a API e suas permissões.
 
-5. Abra no navegador:
-   - Início: `http://localhost:8000/src/html/inicio.html`
-   - Outras páginas: `http://localhost:8000/src/html/login.html`, `sobre.html`, etc.
+**Acesso público**
 
-   > Sirva a pasta `projeto-final` (raiz do projeto), não a pasta `src`: o menu usa o caminho `../../node_modules/bootstrap/...`, que só funciona a partir da raiz. Para encerrar o servidor, aperte `Ctrl + C`.
+- [ ] Consultar catálogo, produtos e informações públicas dos feirantes.
+- [ ] Pesquisar produtos e visualizar preços, fotos e disponibilidade.
+- [ ] Manter o catálogo sem dados privados de consumidores ou da análise administrativa.
 
-   Se preferir, use o **Live Server** do VS Code: abra a pasta `projeto-final`, clique com o botão direito em `src/html/inicio.html` e escolha "Open with Live Server".
+**Contas e controle de acesso**
 
-## Onde mexer no código
+- [ ] Cadastrar e autenticar consumidores e candidatos a feirante.
+- [ ] Identificar o perfil e limitar as ações no backend.
+- [ ] Permitir ao usuário acompanhar a situação de sua candidatura a feirante.
 
-- **Páginas (HTML):** ficam dentro de `src/html/`.
-- **Imagens:** ficam em `src/img/`.
-- **Estilos (CSS):** ficam dentro de `src/css/`, um arquivo por parte do site.
-  - `inicio.css`: cores, fundos e seções da página inicial — edite as cores direto no arquivo.
-  - `navbar.css`: barra de navegação.
-  - `footer.css`: rodapé.
-  - `login.css` e `cadastro.css`: páginas de login e cadastro.
-  - `style.css`: gerado pelo Sass; não edite direto.
-- **Estilos (SCSS):** ficam em `src/scss/` (`main.scss`, `_navbar.scss`, `_footer.scss`) e geram `style.css`.
+**Consumidor**
 
-> Cada HTML carrega seus CSS no `<head>`. `inicio.html` usa Bootstrap + `navbar.css` + `footer.css` + `inicio.css`; as outras páginas usam Bootstrap + `navbar.css` (mais `login.css` ou `cadastro.css` quando aplicável). O `style.css` gerado pelo Sass não está sendo usado pelas páginas neste momento.
+- [ ] Fazer pedidos ou reservas.
+- [ ] Consultar e gerenciar somente os próprios pedidos ou reservas.
 
-> **Atenção:** não edite `src/css/style.css` diretamente. Ele é gerado automaticamente e qualquer mudança nele é sobrescrita na próxima compilação.
+**Feirante aprovado**
 
-## Integrantes
+- [ ] Gerenciar seu perfil e as informações da banca.
+- [ ] Criar, editar e excluir somente os próprios produtos.
+- [ ] Adicionar imagens e informar preço, unidade e quantidade/disponibilidade.
+- [ ] Gerenciar pedidos ou reservas relacionados aos seus produtos.
 
-- Alfredo Borges do Nascimento Neto
-- Francisco Lucas Gomes Almeida
-- Ryan Lopes Braga Brito
+**Administrador**
+
+- [ ] Analisar solicitações de novos feirantes e aprovar ou recusar.
+- [ ] Gerenciar usuários, feirantes, produtos e informações da plataforma conforme suas permissões.
+- [ ] Registrar quem analisou uma solicitação, quando e qual foi a decisão.
+
+**Decisões de escopo**
+
+- A proposta permite pedidos **ou** reservas: definir um fluxo principal antes de implementar os dois.
+- Recomenda-se começar com pedido para retirada e pagamento combinado com o feirante. Pagamento online não é uma exigência da proposta.
+- Para alimentos, roupas, artesanato e outros itens, prever categorias e unidade de venda; não limitar o catálogo a frutas.
+- A representação da prefeitura é uma possibilidade de administração, não uma parceria institucional já confirmada.
+
+### Entidades previstas na proposta
+
+| Entidade | Responsabilidade |
+| --- | --- |
+| Usuário | Identificação e autenticação. Usar o usuário do Users & Permissions. |
+| Perfil/Papel | Permissões de consumidor, feirante e administrador do site. |
+| Feirante/Produtor | Dados da banca ou produção e relação com seu usuário. |
+| Produto | Nome, descrição, preço, quantidade/disponibilidade e feirante proprietário. |
+| Imagem do produto | Fotos, usando a mídia do Strapi e sua relação com o produto. |
+| Pedido | Consumidor, situação e itens solicitados. |
+| Item do pedido | Produto, quantidade e preço registrado no momento do pedido. |
+| Reserva | Somente se esse fluxo for adotado. |
+
+Categoria e dados da análise de feirantes são complementos sugeridos para atender à organização do catálogo e à nova regra de aprovação.
+
+## Identidade visual
+
+As cinco cores principais informadas pela equipe são:
+
+| Cor | Hexadecimal | Uso sugerido |
+| --- | --- | --- |
+| Azul | `#1D479D` | Links, chamadas e ações gerais, como entrar ou salvar. |
+| Azul escuro | `#002680` | Títulos, destaques de texto e estados de interação. |
+| Verde | `#088344` | Criar conta, fazer pedido e indicação de aprovação. |
+| Amarelo | `#FDCB57` | Avisos, situação pendente e selos de destaque. Usar texto escuro. |
+| Turquesa | `#41B9AB` | Detalhes, filtros e informações complementares. Preferir texto escuro quando usado como fundo. |
+
+Branco, cinzas e fundos suaves são cores de apoio. A cor não deve ser a única informação: mostrar também textos como “Pendente”, “Aprovado” e “Recusado”. “Recusado” pode ser apresentado com texto e um botão neutro, sem inventar uma sexta cor principal.
+
+No Bootstrap, o `main.scss` configura `$primary: #1D479D` e `$success: #088344`. O guia de [CSS e cores](css/README.md) explica onde editar e como carregar os estilos.
+
+## Perfis e permissões
+
+São quatro perfis de acesso, incluindo o visitante, que não precisa de uma conta:
+
+| Perfil | Pode fazer | Limites |
+| --- | --- | --- |
+| Visitante | Ver catálogo e dados públicos, iniciar cadastro/login. | Não cria pedidos nem publica produtos. |
+| Consumidor | Consultar produtos e gerenciar seus próprios pedidos. | Não altera produtos ou pedidos de outras pessoas. |
+| Feirante aprovado | Gerenciar sua banca, seus produtos e pedidos recebidos. | Não administra outras bancas nem aprova cadastros. |
+| Administrador do site | Analisar candidatos e moderar o que estiver autorizado. | Conta criada por um responsável; nunca pelo cadastro público. |
+
+**Candidato a feirante não é um quinto tipo de pessoa:** é um usuário cuja habilitação para vender ainda está pendente. “Estar logado” e “estar aprovado para vender” são condições diferentes.
+
+O fluxo detalhado da análise, a tela e as regras administrativas estão no [README da página do administrador](README-ADMIN.md).
+
+## Tecnologias utilizadas
+
+| Parte | Tecnologias e responsabilidade |
+| --- | --- |
+| Frontend | HTML, CSS e JavaScript para as páginas e a integração com a API. |
+| Interface | Bootstrap 5 para componentes, grid e responsividade. |
+| Estilos compartilhados | Sass compila SCSS em css/style.css. Os estilos de cada página continuam em CSS separado. |
+| Backend | Strapi 5, executado com Node.js. |
+| Contas do site | Plugin Users & Permissions para autenticação e papéis de acesso. |
+| Administração do Strapi | Painel nativo, com contas e permissões próprias gerenciadas por RBAC. |
+| Arquivos e imagens | Recurso Upload do Strapi. |
+| Banco local | SQLite, acessado pelo better-sqlite3. |
+| Comunicação | API REST entre o frontend e o backend. |
+| Dependências | npm, com package.json e package-lock.json separados para frontend e backend. |
+
+Essas tecnologias são a base do projeto; sua presença não significa que todas as funcionalidades previstas estejam concluídas.
+
+## Estrutura do projeto
+
+```text
+help-me-alfredo/
+└── Projeto final/
+    ├── src/                     # Frontend
+    │   ├── html/
+    │   ├── css/
+    │   ├── scss/
+    │   ├── img/
+    │   ├── js/
+    │   ├── node_modules/        # Gerado pelo npm; ignorado pelo Git
+    │   ├── package.json
+    │   ├── README.md
+    │   └── README-ADMIN.md      # Planejamento da área administrativa
+    └── backend/                 # Strapi
+        ├── config/
+        ├── src/api/
+        ├── .env                # Configuração local; não publicar
+        ├── .env.example         # Modelo sem segredos reais
+        ├── node_modules/
+        └── package.json
+```
+
+## Equipe
+
+- Alfredo Borges do Nascimento Neto — Redes de Computadores.
+- Francisco Lucas Gomes Almeida — Engenharia de Software.
+- Ryan Lopes Braga Brito — Engenharia de Software.
