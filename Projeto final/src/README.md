@@ -1,6 +1,6 @@
 # Feira Digital de Baturité
 
-Projeto da cadeira de Desenvolvimento de Software para Web (S4): uma plataforma para aproximar consumidores, feirantes e pequenos produtores de Baturité.
+Projeto da cadeira de Desenvolvimento de Software para Web: uma plataforma para aproximar consumidores, feirantes e pequenos produtores de Baturité.
 
 Este README apresenta a proposta geral, os requisitos, a identidade visual, as tecnologias e a organização do projeto. O planejamento detalhado da área administrativa está em [README-ADMIN.md](README-ADMIN.md). As funcionalidades previstas não devem ser interpretadas como já implementadas.
 
