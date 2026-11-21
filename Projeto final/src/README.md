@@ -10,6 +10,7 @@ Este README apresenta a proposta geral, os requisitos, a identidade visual, as t
 - [Identidade visual](#identidade-visual)
 - [Perfis e permissões](#perfis-e-permissões)
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
+- [Como executar o projeto](#como-executar-o-projeto)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Equipe](#equipe)
 - [Planejamento da página do administrador](README-ADMIN.md)
@@ -130,7 +131,7 @@ O fluxo detalhado da análise, a tela e as regras administrativas estão no [REA
 | Arquivos e imagens | Recurso Upload do Strapi. |
 | Banco local | SQLite, acessado pelo better-sqlite3. |
 | Comunicação | API REST entre o frontend e o backend. |
-| Dependências | npm, com package.json e package-lock.json separados para frontend e backend. |
+| Dependências | npm, com package.json maestro na raiz para atalhos do projeto (setup e compilação) e arquivos separados em frontend e backend. |
 
 Essas tecnologias são a base do projeto; sua presença não significa que todas as funcionalidades previstas estejam concluídas.
 
@@ -138,6 +139,7 @@ Essas tecnologias são a base do projeto; sua presença não significa que todas
 
 ```text
 help-me-alfredo/
+├── package.json                 # Scripts maestros na raiz (setup, compilar-css, dev)
 └── Projeto final/
     ├── src/                     # Frontend
     │   ├── html/
@@ -157,6 +159,27 @@ help-me-alfredo/
         ├── node_modules/
         └── package.json
 ```
+
+## Como executar o projeto
+
+Os comandos podem ser executados diretamente a partir da raiz do repositório `help-me-alfredo`:
+
+### 1. Instalação das dependências
+Instala as dependências do frontend e do backend em uma única etapa:
+```bash
+npm run setup
+```
+*(Para instalar apenas um deles: `npm run setup:frontend` ou `npm run setup:backend`).*
+
+### 2. Compilação de estilos (Sass)
+Para iniciar a compilação com atualização automática (`--watch`):
+```bash
+npm run compilar-css
+```
+
+### 3. Servidores locais
+- **Frontend:** `npm run dev:frontend` (acesso em `http://localhost:8000/html/inicio.html`).
+- **Backend (Strapi):** `npm run dev:backend` (acesso em `http://localhost:1337/admin`).
 
 ## Equipe
 
