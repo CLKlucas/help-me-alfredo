@@ -1,0 +1,40 @@
+name: Compilar SCSS
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Projeto final/src/scss/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: |
+          cd "Projeto final/src"
+          npm install
+
+      - name: Compilar SCSS para CSS
+        run: |
+          cd "Projeto final/src"
+          npx sass --silence-deprecation=import,if-function,global-builtin,color-functions scss/main.scss css/style.css
+
+      - name: Commitar e dar push se houve alteração
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add "Projeto final/src/css/style.css" "Projeto final/src/css/style.css.map"
+          git diff --staged --quiet || (git commit -m "chore: compilação automática do SCSS [skip ci]" && git push)
