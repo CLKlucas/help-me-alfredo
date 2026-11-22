@@ -11922,6 +11922,10 @@ footer h5, footer .h5 {
   color: #1d479d;
 }
 
+.fundo-suave {
+  background-color: #f0f4fa;
+}
+
 .pedidos a {
   background-color: #088344;
   color: #ffffff;
