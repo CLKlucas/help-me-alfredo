@@ -77,34 +77,8 @@
         <section class="produtos">
             <h2 class="titulo-secao">Disponíveis nesta semana</h2>
 
-            <div class="produtos-grid">
-                <article class="produto-card">
-                    <h3 class="titulo-item">Café da serra</h3>
-                    <p class="texto">
-                        Grãos cultivados e torrados em Baturité, prontos para o
-                        seu café da manhã.
-                    </p>
-                    <a href="pedidos.html">Fazer pedido</a>
-                </article>
-
-                <article class="produto-card">
-                    <h3 class="titulo-item">Frutas da estação</h3>
-                    <p class="texto">
-                        Frutas colhidas nas bancas da feira, escolhidas no ponto
-                        certo de maturação.
-                    </p>
-                    <a href="pedidos.html">Fazer pedido</a>
-                </article>
-
-                <article class="produto-card">
-                    <h3 class="titulo-item">Doces e conservas</h3>
-                    <p class="texto">
-                        Receitas feitas pelos feirantes da cidade, direto para a
-                        sua mesa.
-                    </p>
-                    <a href="pedidos.html">Fazer pedido</a>
-                </article>
-            </div>
+            <p id="mensagem-produtos" class="texto" role="status" aria-live="polite">Carregando produtos da feira...</p>
+            <div class="produtos-grid" id="lista-produtos"></div>
         </section>
     </main>
 
@@ -137,6 +111,7 @@
         </div>
       </div>
     </footer>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/catalogo-produtos.js"></script>
 </body>
 </html>

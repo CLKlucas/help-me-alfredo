@@ -81,7 +81,7 @@
           
             <h3 class="h3 fw-bold mb-4">Criar Conta</h3>
             
-            <form method="post">
+            <form id="cadastro-form">
                 <label class="form-label fw-semibold" for="nome">Nome Completo</label>
                 <input class="form-control mb-3" type="text" id="nome" name="nome" required>
 
@@ -90,6 +90,8 @@
                         <option value="consumidor">Consumidor</option> 
                         <option value="feirante">Feirante</option>
                     </select>
+
+                <div id="campos-perfil"></div>
 
                 <label class="form-label fw-semibold" for="email">Email</label>
                 <input class="form-control mb-3" type="email" id="email" name="email" required>
@@ -101,7 +103,8 @@
                 <input class="form-control mb-3" type="password" id="confirmar_senha" name="confirmar_senha" minlength="8" required>
 
                 
-                <button type="submit" class=" btn botao-enviar w-100 py-3 fw-semibold">Criar conta</button>
+                <p id="mensagem" role="status" aria-live="polite"></p>
+                <button type="submit" class="btn botao-enviar w-100 py-3 fw-semibold">Criar conta</button>
                 <p>Já possui conta? <a href="login.html">Entrar</a>  </p>
                 
             
@@ -140,6 +143,7 @@
       </div>
     </footer>
     
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/cadastro.js"></script>
 </body>
 </html>

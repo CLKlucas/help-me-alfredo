@@ -1,4 +1,3 @@
-
 'use strict';
 
 module.exports = {
@@ -9,6 +8,14 @@ module.exports = {
       handler: 'cadastro.create',
       config: {
         auth: false,
+      },
+    },
+    {
+      method: 'GET',
+      path: '/minha-conta',
+      handler: 'cadastro.me',
+      config: {
+        auth: {},
       },
     },
   ],
