@@ -7,6 +7,10 @@
     "setup:frontend": "npm --prefix \"Projeto final/src\" install",
     "setup:backend": "npm --prefix \"Projeto final/backend\" install",
     "setup": "npm run setup:frontend && npm run setup:backend",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "npm --prefix \"Projeto final/src\" run build",
+    "build:backend": "npm --prefix \"Projeto final/backend\" run build",
+    "typecheck": "npm --prefix \"Projeto final/src\" run typecheck && npm --prefix \"Projeto final/backend\" run typecheck",
     "compilar-css": "npm --prefix \"Projeto final/src\" run compilar-css",
     "dev:frontend": "cd \"Projeto final/src\" && python3 -m http.server 8000 --bind 127.0.0.1",
     "dev:backend": "npm --prefix \"Projeto final/backend\" run develop"

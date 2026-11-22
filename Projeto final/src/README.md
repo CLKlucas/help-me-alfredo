@@ -10,8 +10,10 @@ Este README apresenta a proposta geral, os requisitos, a identidade visual, as t
 - [Identidade visual](#identidade-visual)
 - [Perfis e permissões](#perfis-e-permissões)
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
-- [Como executar o projeto](#como-executar-o-projeto)
 - [Estrutura do projeto](#estrutura-do-projeto)
+- [Como executar o projeto](#como-executar-o-projeto)
+- [Configuração TypeScript](#configuração-typescript)
+- [Scripts disponíveis](#scripts-disponíveis)
 - [Equipe](#equipe)
 - [Planejamento da página do administrador](README-ADMIN.md)
 
@@ -122,16 +124,17 @@ O fluxo detalhado da análise, a tela e as regras administrativas estão no [REA
 
 | Parte | Tecnologias e responsabilidade |
 | --- | --- |
-| Frontend | HTML, CSS e JavaScript para as páginas e a integração com a API. |
+| Frontend | HTML e CSS para as páginas; TypeScript para a integração com a API. |
+| TypeScript do frontend | Fontes em `src/ts`, compilados para `src/js`; o HTML continua carregando os arquivos gerados em `../js/*.js`. |
 | Interface | Bootstrap 5 para componentes, grid e responsividade. |
 | Estilos compartilhados | Sass compila SCSS em css/style.css. Os estilos de cada página continuam em CSS separado. |
-| Backend | Strapi 5, executado com Node.js. |
+| Backend | Strapi 5 em TypeScript, executado com Node.js e compilado pelo próprio Strapi para `dist/`. |
 | Contas do site | Plugin Users & Permissions para autenticação e papéis de acesso. |
 | Administração do Strapi | Painel nativo, com contas e permissões próprias gerenciadas por RBAC. |
 | Arquivos e imagens | Recurso Upload do Strapi. |
 | Banco local | SQLite, acessado pelo better-sqlite3. |
 | Comunicação | API REST entre o frontend e o backend. |
-| Dependências | npm, com package.json maestro na raiz para atalhos do projeto (setup e compilação) e arquivos separados em frontend e backend. |
+| Dependências | npm, com package.json maestro na raiz para atalhos do projeto (setup, build e typecheck) e arquivos separados em frontend e backend. O TypeScript é uma dependência de desenvolvimento do frontend; o backend usa o suporte nativo do Strapi. |
 
 Essas tecnologias são a base do projeto; sua presença não significa que todas as funcionalidades previstas estejam concluídas.
 
@@ -139,47 +142,119 @@ Essas tecnologias são a base do projeto; sua presença não significa que todas
 
 ```text
 help-me-alfredo/
-├── package.json                 # Scripts maestros na raiz (setup, compilar-css, dev)
+├── package.json                  # Scripts maestros na raiz (setup, build, typecheck, dev)
 └── Projeto final/
-    ├── src/                     # Frontend
+    ├── src/                      # Frontend
     │   ├── html/
     │   ├── css/
     │   ├── scss/
     │   ├── img/
-    │   ├── js/
-    │   ├── node_modules/        # Gerado pelo npm; ignorado pelo Git
+    │   ├── ts/                   # Fontes TypeScript (editar aqui)
+    │   ├── js/                   # JavaScript gerado pelo build (não editar)
+    │   ├── tsconfig.json
+    │   ├── node_modules/         # Gerado pelo npm; ignorado pelo Git
     │   ├── package.json
     │   ├── README.md
-    │   └── README-ADMIN.md      # Planejamento da área administrativa
-    └── backend/                 # Strapi
-        ├── config/
-        ├── src/api/
-        ├── .env                # Configuração local; não publicar
-        ├── .env.example         # Modelo sem segredos reais
+    │   └── README-ADMIN.md       # Planejamento da área administrativa
+    └── backend/                  # Strapi 5 em TypeScript
+        ├── config/               # Configurações .ts (admin, database, server, etc.)
+        ├── src/
+        │   ├── api/              # Controllers, routes e services .ts
+        │   ├── types/            # Interfaces compartilhadas
+        │   ├── schemas.ts        # Importa os schema.json para o dist
+        │   └── index.ts
+        ├── dist/                 # Código compilado; gerado e ignorado pelo Git
+        ├── tsconfig.json
+        ├── .env                  # Configuração local; não publicar
+        ├── .env.example          # Modelo sem segredos reais
         ├── node_modules/
         └── package.json
 ```
 
 ## Como executar o projeto
 
-Os comandos podem ser executados diretamente a partir da raiz do repositório `help-me-alfredo`:
+Os comandos podem ser executados diretamente a partir da raiz do repositório `help-me-alfredo`.
 
 ### 1. Instalação das dependências
+
 Instala as dependências do frontend e do backend em uma única etapa:
+
 ```bash
 npm run setup
 ```
+
 *(Para instalar apenas um deles: `npm run setup:frontend` ou `npm run setup:backend`).*
 
-### 2. Compilação de estilos (Sass)
+### 2. Compilação do TypeScript
+
+O código editável do frontend está em `Projeto final/src/ts`. O HTML continua apontando para `../js/*.js`, então é necessário compilar antes de abrir as páginas em um navegador ou servir o projeto pela primeira vez:
+
+```bash
+npm run build
+```
+
+O comando acima compila frontend e backend. Para compilar apenas uma parte:
+
+```bash
+npm run build:frontend
+npm run build:backend
+```
+
+Para conferir os tipos sem gerar arquivos:
+
+```bash
+npm run typecheck
+```
+
+Durante o desenvolvimento do frontend, use `npm --prefix "Projeto final/src" run build:watch` em outro terminal para recompilar automaticamente a cada alteração em `ts/`. Não edite os arquivos de `js/`: eles são gerados e ignorados pelo Git.
+
+No backend, `npm run dev:backend` (ou `npm run build:backend`) já compila os `.ts` para `Projeto final/backend/dist`, de onde o Strapi carrega as configurações, as rotas e os content types. A pasta `dist/` é gerada e não deve ser versionada.
+
+### 3. Compilação de estilos (Sass)
+
 Para iniciar a compilação com atualização automática (`--watch`):
+
 ```bash
 npm run compilar-css
 ```
 
-### 3. Servidores locais
+### 4. Servidores locais
+
 - **Frontend:** `npm run dev:frontend` (acesso em `http://localhost:8000/html/inicio.html`).
 - **Backend (Strapi):** `npm run dev:backend` (acesso em `http://localhost:1337/admin`).
+
+Ordem sugerida na primeira execução: `npm run setup` → `npm run build` → `npm run typecheck` → iniciar os dois servidores em terminais separados. Use Ctrl + C para encerrar cada servidor.
+
+## Configuração TypeScript
+
+### Frontend
+
+- `Projeto final/src/tsconfig.json`: `rootDir: "ts"`, `outDir: "js"`, `target`/`module` ES2020 e `strict: true`.
+- Edite somente os arquivos em `Projeto final/src/ts`. Os módulos compilados aparecem em `Projeto final/src/js` com os mesmos nomes.
+- Nenhum HTML foi alterado na migração: os scripts já apontavam para `../js/login.js`, `../js/cadastro.js`, `../js/painel-feirante.js` e `../js/catalogo-produtos.js`.
+- Interfaces compartilhadas ficam em `ts/types.ts`; requisições e sessão em `ts/api.ts` e `ts/auth.ts`.
+
+### Backend
+
+- `Projeto final/backend/tsconfig.json` estende `@strapi/typescript-utils/tsconfigs/server`, com `rootDir: "."` e `outDir: "dist"`. O Strapi CLI compila e carrega a aplicação a partir de `dist`.
+- As configurações em `Projeto final/backend/config` e os controllers/routes/services em `src/api` são `.ts`. Os antigos arquivos `.js` e o `jsconfig.json` foram removidos.
+- `src/types/api.ts` concentra as interfaces usadas pelos controllers; foi evitado o uso de `any`.
+- `src/schemas.ts` importa os três `schema.json` dos content types. Isso faz o compilador copiá-los para `dist/src/api/.../schema.json`, que é onde o Strapi os procura.
+- `config/database.ts` usa `path.resolve(process.cwd(), env('DATABASE_FILENAME', '.tmp/data.db'))` para manter o mesmo caminho do SQLite antes e depois da compilação.
+- Rotas, mensagens de erro e permissões foram preservadas: `POST /api/cadastro`, `GET /api/minha-conta`, `POST /api/produtos`, `GET /api/produtos` e `GET /api/catalogo-produtos`.
+
+## Scripts disponíveis
+
+| Onde | Comando | Finalidade |
+| --- | --- | --- |
+| Raiz | `npm run setup` | Instala dependências do frontend e do backend. |
+| Raiz | `npm run build` | Compila TypeScript do frontend e do backend. |
+| Raiz | `npm run build:frontend` / `npm run build:backend` | Compila apenas uma das partes. |
+| Raiz | `npm run typecheck` | Valida os tipos nas duas partes sem emitir arquivos. |
+| Raiz | `npm run compilar-css` | Compila SCSS em `css/style.css` com `--watch`. |
+| Raiz | `npm run dev:frontend` / `npm run dev:backend` | Inicia os servidores locais. |
+| Frontend | `npm run build` / `npm run build:watch` / `npm run typecheck` | Gera `js/`, recompila em mudanças ou apenas valida tipos. |
+| Backend | `npm run build` / `npm run build:server` / `npm run typecheck` | Build completo do Strapi, compilação apenas do servidor ou validação de tipos. |
 
 ## Equipe
 

@@ -5,6 +5,8 @@
   "description": "A Strapi application",
   "scripts": {
     "build": "strapi build",
+    "build:server": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",

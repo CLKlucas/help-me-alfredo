@@ -1,4 +1,6 @@
-module.exports = {
+import type { Core } from '@strapi/strapi';
+
+const api: Core.Config.Api = {
   rest: {
     defaultLimit: 25,
     maxLimit: 100,
@@ -10,3 +12,5 @@ module.exports = {
     strictRelations: true,
   },
 };
+
+export default api;

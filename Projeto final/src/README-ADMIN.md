@@ -113,12 +113,12 @@ Essas rotas, se construídas para o site, usam a autenticação e o papel do Use
 Conferido no código em 21/11/2026, sem consultar contas, configurações de papéis ou dados privados no banco:
 
 - Há páginas HTML, CSS, Bootstrap e Sass no frontend.
-- O backend usa Strapi 5 e SQLite; existem os tipos Feirante e Consumidor.
+- O backend usa Strapi 5 em TypeScript e SQLite; existem os tipos Feirante e Consumidor.
 - A rota `POST /api/cadastro` cria o usuário e seu perfil. Na implementação atual, quem escolhe feirante recebe diretamente o papel `Feirante`.
 - O cadastro atual usa `confirmed: true` e não possui uma etapa de aprovação da existência da banca.
 - O schema de Feirante ainda não contém os campos de análise sugeridos neste README.
 - `html/admin.html` é somente um esqueleto vazio; a área administrativa própria ainda precisa ser construída e protegida.
-- A pasta `js` do frontend está vazia. A integração dos formulários com a API, o tratamento dos erros e os redirecionamentos ainda precisam ser implementados.
+- As fontes do frontend ficam em `src/ts` e são compiladas para `src/js`; a integração dos formulários com a API, o tratamento dos erros e os redirecionamentos já estão implementados. Não editar os arquivos gerados em `js`.
 - O esqueleto de admin precisa carregar `../css/style.css`. Os scripts da página devem respeitar a localização de node_modules em src.
 
 Ordem sugerida:

@@ -1,9 +1,13 @@
 {
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "compilar-css": "sass --watch --silence-deprecation=import,if-function,global-builtin,color-functions scss/main.scss css/style.css"
   },
   "devDependencies": {
-    "sass": "^1.108.2"
+    "sass": "^1.108.2",
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "bootstrap": "^5.3.8"

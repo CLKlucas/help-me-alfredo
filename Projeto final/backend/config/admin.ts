@@ -1,9 +1,11 @@
-module.exports = ({ env }) => ({
+import type { Core } from '@strapi/strapi';
+
+const admin: Core.Config.Shared.ConfigFunction<Core.Config.Admin> = ({ env }) => ({
   auth: {
-    secret: env('ADMIN_JWT_SECRET'),
+    secret: env('ADMIN_JWT_SECRET') as string,
   },
   apiToken: {
-    salt: env('API_TOKEN_SALT'),
+    salt: env('API_TOKEN_SALT') as string,
   },
   transfer: {
     token: {
@@ -19,3 +21,5 @@ module.exports = ({ env }) => ({
     docLinks: env.bool('FLAG_DOC_LINKS', true),
   },
 });
+
+export default admin;

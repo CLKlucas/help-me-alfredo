@@ -32,6 +32,18 @@ npm run build
 yarn build
 ```
 
+## TypeScript neste projeto
+
+Este backend usa o suporte TypeScript nativo do Strapi 5. As configurações em `config/`, os controllers/routes/services em `src/api` e `src/index.ts` são `.ts`; os antigos `.js` e o `jsconfig.json` foram removidos.
+
+- `npm run develop` compila `tsconfig.json`, gera `dist/` e inicia com autoreload.
+- `npm run build` compila o servidor e o painel administrativo.
+- `npm run build:server` compila somente o TypeScript do servidor.
+- `npm run typecheck` valida os tipos sem gerar arquivos.
+- `npm run start` inicia a aplicação já compilada, sem autoreload.
+
+O `tsconfig.json` estende `@strapi/typescript-utils/tsconfigs/server` e usa `rootDir: "."` com `outDir: "dist"`. O arquivo `src/schemas.ts` importa os `schema.json` dos content types para que sejam copiados para `dist`. Em `config/database.ts`, o caminho do SQLite continua resolvido a partir de `process.cwd()` (`.tmp/data.db`), independentemente da compilação.
+
 ## ⚙️ Deployment
 
 Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.

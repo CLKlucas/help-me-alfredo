@@ -1,7 +1,28 @@
-'use strict';
+import type { Core } from '@strapi/strapi';
+import type { Context } from 'koa';
+import type {
+  CorpoCadastro,
+  PerfilConsumidorBanco,
+  PerfilFeiranteBanco,
+  TipoConta,
+  UsuarioAutenticado,
+  UsuarioBanco,
+} from '../../../types/api.js';
 
-module.exports = {
-  async create(ctx) {
+const TIPOS_CONTA: readonly string[] = ['feirante', 'consumidor'];
+
+function eObjeto(valor: unknown): valor is Record<string, unknown> {
+  return typeof valor === 'object' && valor !== null;
+}
+
+function eTipoConta(valor: unknown): valor is TipoConta {
+  return typeof valor === 'string' && TIPOS_CONTA.includes(valor);
+}
+
+const cadastroController = {
+  async create(ctx: Context): Promise<void> {
+    const corpo = (ctx.request.body ?? {}) as CorpoCadastro;
+
     const {
       tipo,
       nome,
@@ -11,9 +32,9 @@ module.exports = {
       nome_da_barraca,
       descricao,
       endereco,
-    } = ctx.request.body;
+    } = corpo;
 
-    if (!['feirante', 'consumidor'].includes(tipo)) {
+    if (!eTipoConta(tipo)) {
       return ctx.badRequest('Tipo de conta inválido.');
     }
 
@@ -34,15 +55,18 @@ module.exports = {
       name: 'users-permissions',
     });
 
-    const settings = await pluginStore.get({ key: 'advanced' });
+    const settings: unknown = await pluginStore.get({ key: 'advanced' });
+    const allowRegister = eObjeto(settings)
+      ? (settings as { allow_register?: unknown }).allow_register
+      : undefined;
 
-    if (!settings?.allow_register) {
+    if (!allowRegister) {
       return ctx.badRequest('Cadastro não está habilitado.');
     }
 
     const roleName = tipo === 'feirante' ? 'Feirante' : 'Consumidor';
 
-    const role = await strapi.db
+    const role: { id: number } | null = await strapi.db
       .query('plugin::users-permissions.role')
       .findOne({ where: { name: roleName } });
 
@@ -54,9 +78,9 @@ module.exports = {
       .plugin('users-permissions')
       .service('user');
 
-    const username = email.trim().toLowerCase();
+    const username = String(email).trim().toLowerCase();
 
-    const existingUser = await strapi.db
+    const existingUser: { id: number } | null = await strapi.db
       .query('plugin::users-permissions.user')
       .findOne({
         where: {
@@ -68,7 +92,7 @@ module.exports = {
       return ctx.badRequest('E-mail já cadastrado.');
     }
 
-    const user = await userService.add({
+    const user: UsuarioBanco = await userService.add({
       username,
       email: username,
       password,
@@ -79,23 +103,23 @@ module.exports = {
     });
 
     try {
-      let profile;
+      let profile: unknown;
 
       if (tipo === 'feirante') {
         profile = await strapi.documents('api::feirante.feirante').create({
           data: {
-            nome_da_barraca,
+            nome_da_barraca: nome_da_barraca as string,
             whatsapp: String(whatsapp),
-            descricao,
+            descricao: descricao as string | undefined,
             users_permissions_user: user.documentId,
           },
         });
       } else {
         profile = await strapi.documents('api::consumidor.consumidor').create({
           data: {
-            nome,
+            nome: nome as string,
             whatsapp: String(whatsapp),
-            endereco,
+            endereco: endereco as string,
             users_permissions_user: user.documentId,
           },
         });
@@ -118,14 +142,14 @@ module.exports = {
     }
   },
 
-  async me(ctx) {
-    const authenticatedUser = ctx.state.user;
+  async me(ctx: Context): Promise<void> {
+    const authenticatedUser = (ctx.state as { user?: UsuarioAutenticado }).user;
 
     if (!authenticatedUser) {
       return ctx.unauthorized('Você precisa estar autenticado.');
     }
 
-    const user = await strapi.db
+    const user: UsuarioBanco | null = await strapi.db
       .query('plugin::users-permissions.user')
       .findOne({
         where: { id: authenticatedUser.id },
@@ -139,7 +163,7 @@ module.exports = {
     const roleName = user.role.name;
 
     if (roleName === 'Feirante') {
-      const profile = await strapi.db
+      const profile: PerfilFeiranteBanco | null = await strapi.db
         .query('api::feirante.feirante')
         .findOne({
           where: {
@@ -167,7 +191,7 @@ module.exports = {
     }
 
     if (roleName === 'Consumidor') {
-      const profile = await strapi.db
+      const profile: PerfilConsumidorBanco | null = await strapi.db
         .query('api::consumidor.consumidor')
         .findOne({
           where: {
@@ -196,4 +220,6 @@ module.exports = {
 
     return ctx.forbidden('Tipo de conta não reconhecido.');
   },
-};
+} satisfies Core.Controller;
+
+export default cadastroController;
