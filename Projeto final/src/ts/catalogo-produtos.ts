@@ -15,6 +15,18 @@ function formatarPreco(preco: Produto['preco']): string {
 function criarCard(produto: Produto): HTMLElement {
   const card = document.createElement('article');
   card.className = 'produto-card';
+  if (produto.imagem?.url) {
+  const imagem = document.createElement('img');
+
+  imagem.src = produto.imagem.url.startsWith('http')
+    ? produto.imagem.url
+    : `${API_URL.replace('/api', '')}${produto.imagem.url}`;
+
+  imagem.alt = produto.imagem.alternativeText || produto.nome;
+  imagem.className = 'produto-imagem';
+
+  card.appendChild(imagem);
+}
 
   const nome = document.createElement('h3');
   nome.className = 'titulo-item';
@@ -41,6 +53,7 @@ function criarCard(produto: Produto): HTMLElement {
   card.append(nome, descricao, preco, barraca, link);
 
   return card;
+
 }
 
 async function carregarCatalogo(): Promise<void> {

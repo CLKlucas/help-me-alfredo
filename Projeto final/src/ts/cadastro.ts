@@ -1,6 +1,7 @@
 import { cadastrar, entrar } from './auth.js';
 import type { DadosCadastro } from './types.js';
 import { obterElemento, obterMensagemErro } from './util.js';
+import { API_URL, apiRequest, uploadImagem } from './api.js';
 
 const formulario = obterElemento<HTMLFormElement>('#cadastro-form');
 const tipoConta = obterElemento<HTMLSelectElement>('#conta_tipo');
@@ -103,4 +104,47 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
   } finally {
     botao.disabled = false;
   }
+});
+
+const formularioProduto = document.querySelector<HTMLFormElement>(
+    '#form-produto'
+);
+
+formularioProduto?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const nome = document.querySelector<HTMLInputElement>('#nome-produto');
+    const descricao = document.querySelector<HTMLTextAreaElement>('#descricao-produto');
+    const preco = document.querySelector<HTMLInputElement>('#preco-produto');
+    const imagem = document.querySelector<HTMLInputElement>('#imagem-produto');
+
+    try {
+        let imagemId: number | undefined;
+
+        const arquivo = imagem?.files?.[0];
+
+        if (arquivo) {
+            imagemId = await uploadImagem(arquivo);
+        }
+
+        const produto = {
+            nome: nome?.value.trim(),
+            descricao: descricao?.value.trim(),
+            preco: Number(preco?.value),
+            disponivel: true,
+            ...(imagemId !== undefined && { imagem: imagemId }),
+        };
+
+        await apiRequest('/produtos', {
+            method: 'POST',
+            body: JSON.stringify(produto),
+        });
+
+        alert('Produto cadastrado com sucesso!');
+        formularioProduto.reset();
+
+    } catch (error) {
+        console.error(error);
+        alert('Não foi possível cadastrar o produto.');
+    }
 });

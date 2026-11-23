@@ -59,3 +59,26 @@ export async function apiRequest<T>(
 
   return dados as T;
 }
+
+export async function uploadImagem(arquivo: File): Promise<number> {
+    const token = sessionStorage.getItem('jwt');
+
+    const formulario = new FormData();
+    formulario.append('files', arquivo);
+
+    const response = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        body: formulario,
+    });
+
+    if (!response.ok) {
+        throw new Error('Erro ao enviar imagem.');
+    }
+
+    const arquivos = await response.json();
+
+    return arquivos[0].id;
+}

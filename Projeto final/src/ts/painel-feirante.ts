@@ -1,7 +1,8 @@
-import { apiRequest } from './api.js';
+import { apiRequest, uploadImagem } from './api.js';
 import { obterMinhaConta, sair } from './auth.js';
 import type { Produto } from './types.js';
 import { obterElemento, obterMensagemErro } from './util.js';
+
 
 const mensagem = obterElemento<HTMLElement>('#mensagem-painel');
 const conteudo = obterElemento<HTMLElement>('#conteudo-painel');
@@ -89,6 +90,7 @@ async function carregarProdutos(): Promise<void> {
   }
 }
 
+
 formularioProduto.addEventListener('submit', async (event: SubmitEvent) => {
   event.preventDefault();
 
@@ -103,10 +105,26 @@ formularioProduto.addEventListener('submit', async (event: SubmitEvent) => {
   };
 
   try {
-    await apiRequest('/produtos', {
-      method: 'POST',
-      body: JSON.stringify(dados),
-    });
+    const arquivo = document.querySelector<HTMLInputElement>(
+      '#produto-imagem'
+    )?.files?.[0];
+
+    if (arquivo) {
+      const imagemId = await uploadImagem(arquivo);
+
+      await apiRequest('/produtos', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...dados,
+          imagem: imagemId,
+        }),
+      });
+    } else {
+      await apiRequest('/produtos', {
+        method: 'POST',
+        body: JSON.stringify(dados),
+      });
+    }
 
     formularioProduto.reset();
     obterElemento<HTMLInputElement>('#produto-disponivel').checked = true;
@@ -116,10 +134,12 @@ formularioProduto.addEventListener('submit', async (event: SubmitEvent) => {
     await carregarProdutos();
   } catch (error) {
     mensagemProduto.textContent = obterMensagemErro(error);
+    console.error('Erro ao cadastrar produto:', error);
   } finally {
     botaoCadastrar.disabled = false;
   }
 });
+
 
 async function carregarPainel(): Promise<void> {
   if (!sessionStorage.getItem('jwt')) {

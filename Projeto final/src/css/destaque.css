@@ -4,7 +4,7 @@ body {
 }
 
 #conteudo section {
-  padding: 70px 20px;
+  padding: 48px 20px;
 }
 
 #conteudo section:nth-child(even) {
@@ -108,20 +108,3 @@ body {
   color: #ffffff;
 }
 
-@media (max-width: 576px) {
-  #conteudo section {
-    padding: 48px 20px;
-  }
-
-  .apresentacao {
-    padding-top: 48px;
-  }
-
-  .titulo-pagina {
-    font-size: 32px;
-  }
-
-  .titulo-secao {
-    font-size: 26px;
-  }
-}
