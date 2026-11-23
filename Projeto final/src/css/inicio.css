@@ -7,15 +7,23 @@ body {
   background-color: #f0f4fa;
 }
 
+.apresentacao {
+  border-bottom: 1px solid #e2e8f0;
+}
+
 .chamada {
-  letter-spacing: 1px;
+  letter-spacing: 0.08em;
   color: #1d479d;
 }
 
 .titulo-pagina,
 .titulo-secao {
-  max-width: 900px;
+  max-width: 780px;
   color: #002680;
+}
+
+.titulo-pagina {
+  max-width: 650px;
 }
 
 .titulo-item {
@@ -23,22 +31,34 @@ body {
 }
 
 .texto {
-  max-width: 720px;
+  max-width: 680px;
   color: #334155;
 }
 
+.marketing .container > .row li > div {
+  border-radius: 6px !important;
+  border-color: #dce5ef !important;
+  box-shadow: 0 4px 14px rgba(51, 65, 85, 0.06);
+}
 
-#conteudo .btn-primary {
+.marketing .texto {
+  max-width: none;
+}
+
+#conteudo .btn-primary,
+#conteudo .btn-success {
   --bs-btn-bg: #1d479d;
   --bs-btn-border-color: #1d479d;
   --bs-btn-hover-bg: #002680;
   --bs-btn-hover-border-color: #002680;
   --bs-btn-active-bg: #002680;
   --bs-btn-active-border-color: #002680;
+  border-radius: 5px;
 }
 
 .linha-do-tempo {
-  max-width: 900px;
+  max-width: 780px;
+  border-left-color: #b8c7dc !important;
 }
 
 .linha-do-tempo .badge {
