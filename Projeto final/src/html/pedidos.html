@@ -1,16 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedidos | Feira Digital de Baturité</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body class="d-flex flex-column min-vh-100">
-
-
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-feira">
+      <nav class="navbar navbar-expand-lg navbar-feira">
         <div class="container-fluid">
           <a class="navbar-brand" href="inicio.html">
             <img
@@ -61,22 +59,116 @@
           </div>
         </div>
       </nav>
-
     </header>
-    
+
     <main id="conteudo" class="flex-grow-1">
-        <section class="texto_pedidos">
-            <p class="chamada">SEU PEDIDO</p>
-            <h1 class="titulo-pagina">Confira os itens</h1>
+      <section class="texto_pedidos py-4 text-center">
+        <div class="container">
+          <p class="chamada">MEUS PEDIDOS</p>
+          <h1 class="titulo-pagina">Confira os seus pedidos!</h1>
+          <p>Veja o que já pediu e o status de cada pedido.</p>
+        </div>
+      </section>
+
+      <div class="container">
+        <section class="pedidos">
+          <div class="accordion-item m-2 p-1 border rounded-3" id="1">
+            <button
+              type="button"
+              class="accordion-button"
+              data-bs-toggle="collapse"
+              data-bs-target="#pedido-2"
+            >
+              Pedido #2 - Bazar da Rosa - Recebido
+            </button>
+            <div
+              id="pedido-2"
+              class="accordion-body accordion-collapse collapse"
+            >
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Peso</th>
+                    <th>Preço Unit.</th>
+                    <th>Subtotal</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Blusa</td>
+                      <td>1</td>
+                      <td>-</td>
+                      <td>R$ 35,00</td>
+                      <td>R$ 35,00</td>
+                    </tr>
+                    <tr>
+                      <td>Calça</td>
+                      <td>2</td>
+                      <td>-</td>
+                      <td>R$ 60,00</td>
+                      <td>R$ 120,00</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-center fw-bold">Total do pedido: R$ 155,00</p>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="pedidos">
-            <h2>Seu pedido está vazio</h2>
-            <p>Explore os produtos disponíveis para iniciar uma solicitação.</p>
-            <a href="destaque.html">Explorar produtos</a>
-
+          <div class="accordion-item m-2 p-1 border rounded-3" id="1">
+            <button
+              type="button"
+              class="accordion-button"
+              data-bs-toggle="collapse"
+              data-bs-target="#pedido-1"
+            >
+              Pedido #1 - Horta do Seu Zé - Recebido
+            </button>
+            <div
+              id="pedido-1"
+              class="accordion-body accordion-collapse collapse"
+            >
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Peso</th>
+                    <th>Preço Unit.</th>
+                    <th>Subtotal</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Banana Prata</td>
+                      <td>-</td>
+                      <td>1 kg</td>
+                      <td>R$ 3,50</td>
+                      <td>R$ 3,50</td>
+                    </tr>
+                    <tr>
+                      <td>Maçã Verde</td>
+                      <td>7</td>
+                      <td>-</td>
+                      <td>R$ 2,60</td>
+                      <td>R$ 18,20</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-center fw-bold">Total do pedido: R$ 21,70</p>
+              </div>
+            </div>
+          </div>
         </section>
+      </div>
 
+      <div class="text-center my-4">
+        <a href="destaque.html" class="btn btn-primary px-4 py-3 fw-bold"
+          >Explorar produtos</a
+        >
+      </div>
     </main>
 
     <footer class="py-4">
@@ -108,5 +200,5 @@
     </footer>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../js/nav-conta.js"></script>
-</body>
+  </body>
 </html>
