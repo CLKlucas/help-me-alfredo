@@ -539,6 +539,7 @@ export interface ApiFeiranteFeirante extends Struct.CollectionTypeSchema {
       'images' | 'files' | 'videos' | 'audios',
       true
     >;
+    nome: Schema.Attribute.String;
     nome_da_barraca: Schema.Attribute.String;
     produtos: Schema.Attribute.Relation<'oneToMany', 'api::produto.produto'>;
     publishedAt: Schema.Attribute.DateTime;

@@ -27,6 +27,7 @@ export interface UsuarioAutenticado {
 }
 
 export interface PerfilFeiranteBanco {
+  nome?: string | null;
   id: number;
   documentId: string;
   nome_da_barraca: string | null;

@@ -42,7 +42,11 @@ export async function obterMinhaConta(): Promise<MinhaConta> {
   return apiRequest<MinhaConta>('/minha-conta');
 }
 
-export function sair(): void {
+export async function sair(): Promise<void> {
+  try {
+    await apiRequest('/auth/logout', { method: 'POST' });
+  } catch {
+  }
   sessionStorage.removeItem(CHAVE_JWT);
   sessionStorage.removeItem(CHAVE_USUARIO);
 
@@ -52,5 +56,7 @@ export function sair(): void {
 export function obterUsuario(): Usuario | null {
   const usuario = sessionStorage.getItem(CHAVE_USUARIO);
 
-  return usuario ? (JSON.parse(usuario) as Usuario) : null;
+  if (!usuario) return null;
+  try { return JSON.parse(usuario) as Usuario; }
+  catch { return null; }
 }

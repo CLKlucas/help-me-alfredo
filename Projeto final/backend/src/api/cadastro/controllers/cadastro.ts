@@ -38,16 +38,34 @@ const cadastroController = {
       return ctx.badRequest('Tipo de conta inválido.');
     }
 
-    if (!nome || !email || !password || !whatsapp) {
-      return ctx.badRequest('Preencha todos os campos obrigatórios.');
+    if (typeof nome !== 'string' || !nome.trim() || nome.trim().length > 120) {
+      return ctx.badRequest('Informe seu nome, com até 120 caracteres.');
     }
-
-    if (tipo === 'feirante' && !nome_da_barraca) {
-      return ctx.badRequest('Informe o nome da barraca.');
+    if (typeof email !== 'string' || email.trim().length > 254 ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return ctx.badRequest('Informe um e-mail válido.');
     }
-
-    if (tipo === 'consumidor' && !endereco) {
-      return ctx.badRequest('Informe o endereço.');
+    if (typeof password !== 'string' || password.length < 8 || Buffer.byteLength(password, 'utf8') > 72) {
+      return ctx.badRequest('A senha deve ter ao menos 8 caracteres e no máximo 72 bytes.');
+    }
+    if (typeof whatsapp !== 'string') {
+      return ctx.badRequest('Informe o WhatsApp com DDD.');
+    }
+    const telefone = whatsapp.replace(/[\s()+.\-]/g, '');
+    if (!/^\d{10,15}$/.test(telefone)) {
+      return ctx.badRequest('Informe o WhatsApp com DDD, entre 10 e 15 dígitos. Espaços e pontuação são aceitos.');
+    }
+    if (tipo === 'feirante' &&
+        (typeof nome_da_barraca !== 'string' || !nome_da_barraca.trim() || nome_da_barraca.trim().length > 120)) {
+      return ctx.badRequest('Informe o nome da barraca, com até 120 caracteres.');
+    }
+    if (tipo === 'feirante' && descricao !== undefined &&
+        (typeof descricao !== 'string' || descricao.length > 2000)) {
+      return ctx.badRequest('A descrição deve ser um texto de até 2000 caracteres.');
+    }
+    if (tipo === 'consumidor' &&
+        (typeof endereco !== 'string' || !endereco.trim() || endereco.length > 2000)) {
+      return ctx.badRequest('Informe um endereço, com até 2000 caracteres.');
     }
 
     const pluginStore = strapi.store({
@@ -92,54 +110,50 @@ const cadastroController = {
       return ctx.badRequest('E-mail já cadastrado.');
     }
 
-    const user: UsuarioBanco = await userService.add({
-      username,
-      email: username,
-      password,
-      provider: 'local',
-      role: role.id,
-      confirmed: true,
-      blocked: false,
+    const { user, profile } = await strapi.db.transaction(async () => {
+      const user: UsuarioBanco = await userService.add({
+        username,
+        email: username,
+        password,
+        provider: 'local',
+        role: role.id,
+        confirmed: true,
+        blocked: false,
+      });
+
+      const profile = tipo === 'feirante'
+        ? await strapi.documents('api::feirante.feirante').create({
+            data: {
+              nome: nome.trim(),
+              nome_da_barraca: (nome_da_barraca as string).trim(),
+              whatsapp: telefone,
+              descricao: (descricao as string | undefined)?.trim(),
+              users_permissions_user: user.documentId,
+            },
+          })
+        : await strapi.documents('api::consumidor.consumidor').create({
+            data: {
+              nome: nome.trim(),
+              whatsapp: telefone,
+              endereco: (endereco as string).trim(),
+              users_permissions_user: user.documentId,
+            },
+          });
+
+      return { user, profile };
     });
 
-    try {
-      let profile: unknown;
-
-      if (tipo === 'feirante') {
-        profile = await strapi.documents('api::feirante.feirante').create({
-          data: {
-            nome_da_barraca: nome_da_barraca as string,
-            whatsapp: String(whatsapp),
-            descricao: descricao as string | undefined,
-            users_permissions_user: user.documentId,
-          },
-        });
-      } else {
-        profile = await strapi.documents('api::consumidor.consumidor').create({
-          data: {
-            nome: nome as string,
-            whatsapp: String(whatsapp),
-            endereco: endereco as string,
-            users_permissions_user: user.documentId,
-          },
-        });
-      }
-
-      ctx.status = 201;
-      ctx.body = {
-        message: 'Cadastro realizado com sucesso.',
-        user: {
-          id: user.id,
-          documentId: user.documentId,
-          username: user.username,
-          email: user.email,
-        },
-        profile,
-      };
-    } catch (error) {
-      await userService.remove(user.id);
-      throw error;
-    }
+    ctx.status = 201;
+    ctx.body = {
+      message: 'Cadastro realizado com sucesso.',
+      user: {
+        id: user.id,
+        documentId: user.documentId,
+        username: user.username,
+        email: user.email,
+      },
+      profile,
+    };
   },
 
   async me(ctx: Context): Promise<void> {
@@ -169,7 +183,7 @@ const cadastroController = {
           where: {
             users_permissions_user: { id: user.id },
           },
-          select: ['documentId', 'nome_da_barraca', 'whatsapp', 'descricao'],
+          select: ['documentId', 'nome', 'nome_da_barraca', 'whatsapp', 'descricao'],
         });
 
       if (!profile) {
@@ -181,7 +195,7 @@ const cadastroController = {
         usuario: {
           id: user.id,
           documentId: user.documentId,
-          nome: user.username,
+          nome: profile.nome || user.username,
           email: user.email,
         },
         perfil: profile,
@@ -209,7 +223,7 @@ const cadastroController = {
         usuario: {
           id: user.id,
           documentId: user.documentId,
-          nome: user.username,
+          nome: profile.nome || user.username,
           email: user.email,
         },
         perfil: profile,

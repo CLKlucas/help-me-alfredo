@@ -11,6 +11,9 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "nome": {
+      "type": "string"
+    },
     "nome_da_barraca": {
       "type": "string"
     },

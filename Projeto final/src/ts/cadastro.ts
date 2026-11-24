@@ -1,7 +1,7 @@
-import { cadastrar, entrar } from './auth.js';
+import { cadastrar } from './auth.js';
 import type { DadosCadastro } from './types.js';
 import { obterElemento, obterMensagemErro } from './util.js';
-import { API_URL, apiRequest, uploadImagem } from './api.js';
+import { normalizarWhatsApp, validarCadastro } from './validacao-cadastro.js';
 
 const formulario = obterElemento<HTMLFormElement>('#cadastro-form');
 const tipoConta = obterElemento<HTMLSelectElement>('#conta_tipo');
@@ -14,8 +14,9 @@ function atualizarCampos(): void {
             <label class="form-label fw-semibold" for="whatsapp">
                 WhatsApp
             </label>
-            <input class="form-control mb-3" type="tel"
-                id="whatsapp" required>
+            <input class="form-control mb-1" type="tel" inputmode="tel"
+                id="whatsapp" autocomplete="tel" aria-describedby="ajuda-whatsapp" required>
+            <p id="ajuda-whatsapp" class="form-text mb-3">Informe o DDD. Pode usar espaços, parênteses e traços: (85) 99999-9999.</p>
 
             <label class="form-label fw-semibold" for="nome_da_barraca">
                 Nome da barraca
@@ -34,8 +35,9 @@ function atualizarCampos(): void {
             <label class="form-label fw-semibold" for="whatsapp">
                 WhatsApp
             </label>
-            <input class="form-control mb-3" type="tel"
-                id="whatsapp" required>
+            <input class="form-control mb-1" type="tel" inputmode="tel"
+                id="whatsapp" autocomplete="tel" aria-describedby="ajuda-whatsapp" required>
+            <p id="ajuda-whatsapp" class="form-text mb-3">Informe o DDD. Pode usar espaços, parênteses e traços: (85) 99999-9999.</p>
 
             <label class="form-label fw-semibold" for="endereco">
                 Endereço
@@ -52,7 +54,8 @@ atualizarCampos();
 formulario.addEventListener('submit', async (event: SubmitEvent) => {
   event.preventDefault();
 
-  mensagem.textContent = 'Realizando cadastro...';
+  mensagem.textContent = '';
+  if (!formulario.reportValidity()) return;
 
   const tipo = tipoConta.value as DadosCadastro['tipo'];
   const senha = obterElemento<HTMLInputElement>('#senha').value;
@@ -69,7 +72,7 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
     nome: obterElemento<HTMLInputElement>('#nome').value.trim(),
     email: obterElemento<HTMLInputElement>('#email').value.trim(),
     password: senha,
-    whatsapp: obterElemento<HTMLInputElement>('#whatsapp').value.trim(),
+    whatsapp: normalizarWhatsApp(obterElemento<HTMLInputElement>('#whatsapp').value),
   };
 
   if (tipo === 'feirante') {
@@ -86,6 +89,13 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
     ).value.trim();
   }
 
+  const erroValidacao = validarCadastro(dados);
+  if (erroValidacao) {
+    mensagem.textContent = erroValidacao;
+    return;
+  }
+  mensagem.textContent = 'Realizando cadastro...';
+
   const botao = obterElemento<HTMLButtonElement>(
     'button[type="submit"]',
     formulario
@@ -94,57 +104,15 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
 
   try {
     await cadastrar(dados);
-    await entrar(dados.email, dados.password);
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('usuario');
 
     mensagem.textContent = 'Cadastro realizado com sucesso!';
 
-    window.location.href = 'inicio.html';
+    window.location.href = 'login.html?cadastro=sucesso';
   } catch (error) {
     mensagem.textContent = obterMensagemErro(error);
   } finally {
     botao.disabled = false;
   }
-});
-
-const formularioProduto = document.querySelector<HTMLFormElement>(
-    '#form-produto'
-);
-
-formularioProduto?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const nome = document.querySelector<HTMLInputElement>('#nome-produto');
-    const descricao = document.querySelector<HTMLTextAreaElement>('#descricao-produto');
-    const preco = document.querySelector<HTMLInputElement>('#preco-produto');
-    const imagem = document.querySelector<HTMLInputElement>('#imagem-produto');
-
-    try {
-        let imagemId: number | undefined;
-
-        const arquivo = imagem?.files?.[0];
-
-        if (arquivo) {
-            imagemId = await uploadImagem(arquivo);
-        }
-
-        const produto = {
-            nome: nome?.value.trim(),
-            descricao: descricao?.value.trim(),
-            preco: Number(preco?.value),
-            disponivel: true,
-            ...(imagemId !== undefined && { imagem: imagemId }),
-        };
-
-        await apiRequest('/produtos', {
-            method: 'POST',
-            body: JSON.stringify(produto),
-        });
-
-        alert('Produto cadastrado com sucesso!');
-        formularioProduto.reset();
-
-    } catch (error) {
-        console.error(error);
-        alert('Não foi possível cadastrar o produto.');
-    }
 });

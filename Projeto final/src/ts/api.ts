@@ -2,7 +2,7 @@ import type { OpcoesRequisicao, RespostaErroApi } from './types.js';
 
 export const API_URL = 'http://localhost:1337/api';
 
-const rotasPublicas: string[] = ['/auth/local', '/cadastro'];
+const rotasPublicas: string[] = ['/auth/local', '/cadastro', '/catalogo-feirantes'];
 
 function eObjeto(valor: unknown): valor is Record<string, unknown> {
   return typeof valor === 'object' && valor !== null;
@@ -37,11 +37,12 @@ export async function apiRequest<T>(
   const token = sessionStorage.getItem('jwt');
 
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
     ...options.headers,
   };
 
-  if (token && !rotasPublicas.includes(endpoint)) {
+  const rotaPublica = rotasPublicas.includes(endpoint) || endpoint.startsWith('/catalogo-feirantes/');
+  if (token && !rotaPublica) {
     headers.Authorization = `Bearer ${token}`;
   }
 

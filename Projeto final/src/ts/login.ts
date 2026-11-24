@@ -3,6 +3,9 @@ import { obterElemento, obterMensagemErro } from './util.js';
 
 const formulario = obterElemento<HTMLFormElement>('#login-form');
 const mensagem = obterElemento<HTMLElement>('#mensagem');
+if (new URLSearchParams(window.location.search).get('cadastro') === 'sucesso') {
+  mensagem.textContent = 'Conta criada! Entre com seu e-mail e senha.';
+}
 
 formulario.addEventListener('submit', async (event: SubmitEvent) => {
   event.preventDefault();

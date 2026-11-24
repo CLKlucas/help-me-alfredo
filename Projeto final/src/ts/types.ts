@@ -23,6 +23,7 @@ export interface UsuarioResumo {
 }
 
 export interface Feirante {
+  nome?: string | null;
   id?: number;
   documentId?: string;
   nome_da_barraca: string;
@@ -56,6 +57,15 @@ export interface Produto {
   disponivel: boolean;
   imagem?: ImagemProduto | null;
   feirante?: Pick<Feirante, 'nome_da_barraca'> | null;
+}
+
+export interface BancaPublica {
+  nome: string;
+  documentId: string;
+  nome_da_barraca: string;
+  descricao: string;
+  whatsapp: string;
+  foto: ImagemProduto | null;
 }
 
 export interface RespostaAutenticacao {

@@ -18,6 +18,14 @@ const rotas: Core.RouteInput[] = [
     },
   },
   {
+    method: 'DELETE',
+    path: '/produtos/:documentId',
+    handler: 'produto.delete',
+    config: {
+      auth: {},
+    },
+  },
+  {
     method: 'GET',
     path: '/catalogo-produtos',
     handler: 'produto.findPublic',

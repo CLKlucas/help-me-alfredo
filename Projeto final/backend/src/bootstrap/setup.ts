@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
+
 interface Papel {
   name: string;
   description: string;
@@ -31,14 +32,18 @@ const PERMISSOES_AUTENTICADO: string[] = [
   'plugin::users-permissions.auth.revokeSession',
   'plugin::users-permissions.user.me',
   'api::cadastro.cadastro.me',
+  'api::perfil.perfil.find',
+  'api::perfil.perfil.update',
 ];
 
 const PERMISSOES_POR_PAPEL: Record<string, string[]> = {
   Consumidor: PERMISSOES_AUTENTICADO,
   Feirante: [
     ...PERMISSOES_AUTENTICADO,
+    'api::perfil.perfil.removerFoto',
     'api::produto.produto.create',
     'api::produto.produto.find',
+    'api::produto.produto.delete',
     'plugin::upload.content-api.upload',
   ],
 };

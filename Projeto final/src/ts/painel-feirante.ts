@@ -1,12 +1,11 @@
 import { apiRequest, uploadImagem } from './api.js';
-import { obterMinhaConta, sair } from './auth.js';
+import { obterMinhaConta } from './auth.js';
 import type { Produto } from './types.js';
 import { obterElemento, obterMensagemErro } from './util.js';
 
 
 const mensagem = obterElemento<HTMLElement>('#mensagem-painel');
 const conteudo = obterElemento<HTMLElement>('#conteudo-painel');
-const botaoSair = obterElemento<HTMLButtonElement>('#botao-sair');
 
 const formularioProduto = obterElemento<HTMLFormElement>('#form-produto');
 const mensagemProduto = obterElemento<HTMLElement>('#mensagem-produto');
@@ -15,8 +14,6 @@ const totalProdutos = obterElemento<HTMLElement>('#total-produtos');
 const botaoCadastrar = obterElemento<HTMLButtonElement>(
   '#botao-cadastrar-produto'
 );
-
-botaoSair.addEventListener('click', sair);
 
 const formatarPreco = (preco: Produto['preco']): string => {
   return Number(preco).toLocaleString('pt-BR', {
@@ -72,6 +69,27 @@ function exibirProdutos(produtos: Produto[]): void {
       : 'Indisponível';
 
     corpo.append(nome, descricao, preco, disponibilidade);
+    const documentId = produto.documentId;
+    if (documentId) {
+      const excluir = document.createElement('button');
+      excluir.type = 'button';
+      excluir.className = 'btn btn-outline-danger d-block mt-3';
+      excluir.textContent = 'Excluir produto';
+      excluir.addEventListener('click', async () => {
+        if (!window.confirm(`Excluir o produto "${produto.nome}"? Essa ação não pode ser desfeita.`)) return;
+        excluir.disabled = true;
+        mensagemProduto.textContent = 'Excluindo produto...';
+        try {
+          await apiRequest(`/produtos/${encodeURIComponent(documentId)}`, { method: 'DELETE' });
+          mensagemProduto.textContent = 'Produto excluído com sucesso!';
+          await carregarProdutos();
+        } catch (erro) {
+          mensagemProduto.textContent = obterMensagemErro(erro);
+          excluir.disabled = false;
+        }
+      });
+      corpo.appendChild(excluir);
+    }
     card.appendChild(corpo);
     coluna.appendChild(card);
     listaProdutos.appendChild(coluna);

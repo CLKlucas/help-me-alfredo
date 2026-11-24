@@ -126,6 +126,27 @@ const produtoController = {
     ctx.body = produtos;
   },
 
+  async delete(ctx: Context): Promise<void> {
+    const feirante = await obterFeirante(ctx);
+    if (!feirante) return;
+
+    const produto: ProdutoBanco | null = await strapi.db
+      .query('api::produto.produto')
+      .findOne({
+        where: {
+          documentId: ctx.params.documentId,
+          feirante: { id: feirante.id },
+        },
+      });
+
+    if (!produto) return ctx.notFound('Produto não encontrado na sua barraca.');
+
+    await strapi.documents('api::produto.produto').delete({
+      documentId: produto.documentId,
+    });
+    ctx.body = { message: 'Produto excluído com sucesso.' };
+  },
+
   async findPublic(ctx: Context): Promise<void> {
     const produtos: ProdutoBanco[] = await strapi.db
       .query('api::produto.produto')

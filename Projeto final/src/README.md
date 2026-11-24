@@ -14,6 +14,7 @@ Este README apresenta a proposta geral, os requisitos, a identidade visual, as t
 - [Como executar o projeto](#como-executar-o-projeto)
 - [Configuração TypeScript](#configuração-typescript)
 - [Scripts disponíveis](#scripts-disponíveis)
+- [Configuração automática do Strapi](#configuração-automática-do-strapi)
 - [Equipe](#equipe)
 - [Planejamento da página do administrador](README-ADMIN.md)
 
@@ -225,6 +226,22 @@ npm run compilar-css
 
 Ordem sugerida na primeira execução: `npm run setup` → `npm run build` → `npm run typecheck` → iniciar os dois servidores em terminais separados. Use Ctrl + C para encerrar cada servidor.
 
+## Configuração automática do Strapi
+
+`Projeto final/backend/src/index.ts` chama `src/bootstrap/setup.ts` sempre que o backend inicia. Ao executar `npm run dev:backend` na raiz do repositório, o script habilita o cadastro público, cria os papéis **Consumidor** e **Feirante** quando faltam e acrescenta as permissões necessárias. Não é preciso executar outro comando para configurar os papéis. O comando `npm run setup` da raiz instala dependências; a configuração do banco acontece ao iniciar o Strapi.
+
+| Acesso | Configuração compartilhada |
+| --- | --- |
+| Visitante | Cadastro, catálogo de produtos, lista de feirantes e página de cada barraca. Essas rotas usam `auth: false` nos arquivos de rotas. |
+| Consumidor e Feirante | Sessão, consulta da própria conta e leitura/edição do próprio perfil. As permissões comuns ficam em `PERMISSOES_AUTENTICADO`. |
+| Somente Feirante | Cadastrar, listar e excluir os próprios produtos; enviar arquivos; remover a foto da própria banca. As permissões adicionais ficam em `PERMISSOES_POR_PAPEL.Feirante`. |
+
+As permissões incluídas nas funcionalidades recentes são `api::perfil.perfil.find`, `api::perfil.perfil.update`, `api::perfil.perfil.removerFoto` e `api::produto.produto.delete`. Os controllers conferem a conta autenticada para que cada pessoa altere apenas os próprios dados.
+
+O script adiciona somente o que está faltando: reiniciar não duplica papéis ou permissões, nem apaga registros existentes. Permissões extras configuradas manualmente são preservadas. Ao adicionar novas rotas autenticadas, atualize a lista do papel correspondente neste script e reinicie o backend.
+
+Para compartilhar essas mudanças, inclua no commit o script e os arquivos de rotas, controllers, configurações e schemas alterados. Depois de receber o código atualizado, instalar as dependências e preparar o `.env` local, os colegas iniciam o backend para aplicar as regras ao próprio banco. Usuários, produtos, fotos e a conta administrativa de cada instalação continuam sendo dados locais; o script não os copia entre computadores.
+
 ## Configuração TypeScript
 
 ### Frontend
@@ -261,3 +278,47 @@ Ordem sugerida na primeira execução: `npm run setup` → `npm run build` → `
 - Alfredo Borges do Nascimento Neto — Redes de Computadores.
 - Francisco Lucas Gomes Almeida — Engenharia de Software.
 - Ryan Lopes Braga Brito — Engenharia de Software.
+
+## Feirantes e Meu perfil
+
+A página `html/feirantes.html` consulta `GET /api/catalogo-feirantes` e mostra nome da banca, nome do feirante, descrição, foto e número de contato comercial. O WhatsApp é mostrado somente como texto, sem botão ou link para abrir uma conversa. Só informações públicas são devolvidas pela API; contas bloqueadas não aparecem. A aprovação administrativa continua sendo uma etapa futura.
+
+Ao clicar no nome de uma barraca, abre-se `html/feirante.html?id=IDENTIFICADOR`. Essa página pública apresenta a foto, o nome da barraca, o nome do feirante, a descrição, o WhatsApp e os produtos disponíveis daquela barraca. Visitantes e consumidores podem consultá-la; não é necessário fazer login.
+
+O `id` na URL é o `documentId` da barraca no Strapi. `ts/feirante.ts` lê esse valor com `URLSearchParams` e consulta `GET /api/catalogo-feirantes/:documentId`. O backend filtra os produtos pelo feirante e por `disponivel: true`; produtos de outras bancas não entram na resposta. Nome e contato públicos são devolvidos sem email, senha ou dados de login. Barracas inexistentes ou ligadas a contas bloqueadas retornam 404. Sem produtos, a página mostra uma mensagem; sem identificador ou com erro, oferece o link para voltar aos feirantes.
+
+`ts/card-produto.ts` monta o cartão de produto usado tanto no catálogo geral quanto na página da barraca. O HTML reaproveita a navbar, o rodapé, o Bootstrap e os arquivos `css/destaque.css` e `css/feirantes.css`, sem novo CSS. As classes `row`, `col-12 col-md-4`, `col-12 col-md` e `g-4` organizam foto e informações em colunas nas telas maiores e uma abaixo da outra nas menores. Reinicie o backend para carregar a nova rota.
+
+Depois do login, `ts/nav-conta.ts` troca os links de entrada/cadastro por um ícone de pessoa, com Meu perfil e Sair. O ícone é genérico, não uma foto pessoal. Para contas de feirante, o link **Painel do feirante** aparece à esquerda do ícone e leva diretamente ao painel. O JavaScript usa `insertBefore` para colocar esse link antes do ícone; `me-lg-2` acrescenta espaço à direita do link em telas grandes. A opção Sair fica no menu do perfil, sem outro botão no painel. Nas telas pequenas, essas opções ficam dentro do menu de três barras. O painel usa os mesmos links de navegação e o mesmo rodapé da página de início.
+
+Em `html/perfil.html`, consumidores editam nome, WhatsApp e endereço. Feirantes editam seu nome completo, nome da barraca, descrição, WhatsApp e foto. `GET /api/meu-perfil` carrega os dados e `PUT /api/meu-perfil` os salva. Essas rotas usam a conta autenticada e não aceitam escolher outro proprietário ou alterar o papel.
+
+Nos cadastros antigos, o nome do feirante pode estar vazio: preencha-o em Meu perfil; não usamos o email como nome público. Novos cadastros já guardam o nome informado.
+
+A foto da banca usa a primeira imagem do campo `media` existente. Uma nova foto é colocada primeiro, preservando as mídias anteriores. São aceitos JPG, PNG e WebP até 2 MB. Textos e foto são enviados juntos com FormData; o navegador define automaticamente o Content-Type desse envio.
+
+Para **trocar** a foto em Meu perfil, escolha outra imagem e clique em **Salvar alterações**. Para **remover**, clique em **Remover foto**: a retirada acontece imediatamente, sem salvar ou sobrescrever os outros campos do formulário. O botão só aparece quando existe uma foto atual.
+
+O botão usa `type="button"` para não enviar o formulário e `btn btn-outline-danger` para o contorno vermelho do Bootstrap. O clique chama `DELETE /api/meu-perfil/foto`. O backend usa a conta autenticada e desvincula as imagens apenas da própria banca, impedindo que fotos antigas reapareçam. Outras mídias e os arquivos na biblioteca do Strapi são preservados. Perfil, lista de feirantes e página pública passam a mostrar a banca sem foto. Somente o papel Feirante recebe a permissão; reinicie o backend para carregá-la.
+
+Após criar a conta, a pessoa é direcionada ao login. Ao sair, o frontend solicita o encerramento da sessão no Strapi e limpa a sessão local.
+
+Para aplicar as novas rotas e permissões, reinicie o backend com `npm run dev:backend` na raiz do repositório. Se alterar TypeScript do frontend, gere novamente os arquivos com `npm run build:frontend`. Depois, teste pelo Live Server ou pelo servidor HTTP local.
+
+### Validação do cadastro
+
+O WhatsApp aceita formatação como `(85) 99999-9999` e `+55 85 99999-9999`; os caracteres de formatação são removidos antes do envio. Letras e números fora do intervalo de 10 a 15 dígitos são rejeitados. O navegador valida os campos antes do POST e o backend repete as verificações para requisições diretas à API.
+
+Usuário e perfil são criados na mesma transação do banco: se o perfil falhar, o usuário também não é gravado. Erros locais impedem o envio; erros identificados apenas pelo servidor precisam de uma requisição, mas não devem deixar um cadastro parcial. Registros antigos incompletos não são apagados por essa mudança.
+
+### Rodapé no final da tela
+
+Todas as páginas usam `d-flex flex-column min-vh-100` no `body` e `flex-grow-1` no `main`. O corpo organiza os elementos em coluna e ocupa pelo menos a altura da tela; o conteúdo principal cresce para preencher o espaço livre. Assim, o rodapé fica embaixo nas páginas curtas e acompanha o conteúdo nas longas, sem posição fixa ou CSS adicional.
+
+### Produtos e exclusão no painel
+
+A aba **Produtos** mostra o catálogo geral de produtos disponíveis. Os arquivos continuam se chamando `html/destaque.html` e `css/destaque.css` para preservar os caminhos existentes; o título e os textos visíveis usam Produtos.
+
+No painel do feirante, cada produto tem um botão **Excluir produto**. O navegador pede confirmação com `window.confirm`; cancelar não envia nenhuma requisição. Ao confirmar, `DELETE /api/produtos/:documentId` verifica a conta e busca o produto ligado à própria barraca antes de apagá-lo. Consumidores e visitantes não têm essa permissão. Depois, o frontend recarrega a lista e o total de produtos. A imagem enviada à biblioteca do Strapi é preservada. Reinicie o backend para carregar a rota e adicionar automaticamente a permissão de exclusão ao papel Feirante.
+
+Em **Meu perfil**, a descrição da banca mostra oito linhas (`rows="8"`); o endereço do consumidor continua com quatro. O botão **Salvar alterações** usa `btn btn-outline-primary`: contorno e texto azuis, com o fundo branco do formulário aparecendo por dentro. O atalho duplicado para o painel foi retirado do formulário, pois já existe na navbar.

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu perfil | Feira Digital de Baturité</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-feira">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="inicio.html">
+            <img
+              class="marca-feira"
+              src="../img/logotipo.jpg"
+              alt="Feira Digital de Baturité"
+              width="180"
+              height="70"
+            />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu-principal"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav me-auto align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link" href="inicio.html">Início</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="destaque.html">Produtos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="feirantes.html">Feirantes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pedidos.html">Pedidos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sobre.html">Sobre</a>
+              </li>
+            </ul>
+
+            <ul class="navbar-nav align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link" href="login.html">Entrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-success" href="cadastro.html">Criar conta</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </header>
+
+    <main id="conteudo" class="flex-grow-1 container py-5">
+      <h1 class="titulo-pagina fw-bold">Meu perfil</h1>
+      <p>Atualize seus dados de contato. Para feirantes, a foto e a descrição aparecem na página das bancas.</p>
+      <p id="mensagem-perfil" role="status" aria-live="polite">Carregando seu perfil...</p>
+      <a id="entrar-novamente" href="login.html" hidden>Entrar novamente</a>
+      <div class="row">
+        <section class="col-12 col-lg-8">
+          <form id="form-perfil" class="border rounded-3 p-4 bg-white" hidden>
+            <label class="form-label" for="perfil-email">E-mail da conta</label>
+            <input id="perfil-email" class="form-control mb-3" type="email" readonly>
+            <label id="label-nome" class="form-label" for="perfil-nome">Nome completo</label>
+            <input id="perfil-nome" class="form-control mb-3" maxlength="120" required>
+            <div id="campo-barraca" hidden>
+              <label class="form-label" for="perfil-barraca">Nome da barraca</label>
+              <input id="perfil-barraca" class="form-control mb-3" maxlength="120">
+            </div>
+            <label class="form-label" for="perfil-whatsapp">WhatsApp com DDD</label>
+            <input id="perfil-whatsapp" class="form-control mb-3" type="tel" required>
+            <label id="label-complemento" class="form-label" for="perfil-complemento">Descrição</label>
+            <textarea id="perfil-complemento" class="form-control mb-3" rows="8" maxlength="2000"></textarea>
+            <div id="foto-barraca" class="mb-4" hidden>
+              <img id="foto-atual" class="foto-perfil rounded mb-3" alt="Foto atual da sua banca" hidden>
+              <label class="form-label d-block" for="perfil-foto">Foto da banca</label>
+              <input id="perfil-foto" class="form-control" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="ajuda-foto">
+              <p id="ajuda-foto" class="form-text">Para trocar a foto, escolha outra imagem e salve. Use JPG, PNG ou WebP de até 2 MB.</p>
+              <button id="remover-foto" class="btn btn-outline-danger" type="button" hidden>Remover foto</button>
+            </div>
+            <button id="salvar-perfil" class="btn btn-outline-primary" type="submit">Salvar alterações</button>
+          </form>
+        </section>
+      </div>
+    </main>
+    
+    <footer class="py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <img
+              src="../img/logotipo.jpg"
+              alt="Logotipo da cidade de Baturité"
+              width="170"
+            />
+            <p>Produtos locais, relações mais próximas.</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Links relevantes</h5>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Equipe</h5>
+            <p>Alfredo Borges do Nascimento Neto</p>
+            <p>Francisco Lucas Gomes Almeida</p>
+            <p>Ryan Lopes Braga Brito</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Contato</h5>
+            <p>suporte@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/perfil.js"></script>
+    <script type="module" src="../js/nav-conta.js"></script>
+</body>
+</html>

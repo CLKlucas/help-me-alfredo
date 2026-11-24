@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barraca da feira | Feira Digital de Baturité</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/destaque.css">
+    <link rel="stylesheet" href="../css/feirantes.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-feira">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="inicio.html">
+            <img
+              class="marca-feira"
+              src="../img/logotipo.jpg"
+              alt="Feira Digital de Baturité"
+              width="180"
+              height="70"
+            />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu-principal"
+            aria-controls="menu-principal"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav me-auto align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link" href="inicio.html">Início</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="destaque.html">Produtos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="feirantes.html">Feirantes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pedidos.html">Pedidos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sobre.html">Sobre</a>
+              </li>
+            </ul>
+
+            <ul class="navbar-nav align-items-lg-center">
+              <li class="nav-item">
+                <a class="nav-link" href="login.html">Entrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-success" href="cadastro.html">Criar conta</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </header>
+
+    <main id="conteudo" class="flex-grow-1 text-break">
+      <div class="container pt-4">
+        <a href="feirantes.html" class="btn btn-outline-primary">Voltar aos feirantes</a>
+        <p id="mensagem-feirante" class="mt-3" role="status" aria-live="polite">Carregando a barraca...</p>
+      </div>
+
+      <div id="conteudo-feirante" hidden>
+        <section class="apresentacao" aria-labelledby="nome-barraca">
+          <div class="container">
+            <div class="row align-items-center g-4">
+              <div id="foto-barraca" class="col-12 col-md-4" hidden>
+                <img id="foto-feirante" class="foto-banca rounded" alt="Foto da barraca">
+              </div>
+              <div class="col-12 col-md">
+                <p class="chamada">Conheça a barraca</p>
+                <h1 id="nome-barraca" class="titulo-pagina fw-bold">Barraca da feira</h1>
+                <p id="nome-feirante" class="fw-semibold"></p>
+                <p id="descricao-barraca" class="texto"></p>
+                <p id="whatsapp-barraca" class="mb-0"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="produtos" aria-labelledby="titulo-produtos">
+          <h2 id="titulo-produtos" class="titulo-secao">Produtos da barraca</h2>
+          <p id="mensagem-produtos" class="texto" role="status" aria-live="polite"></p>
+          <div id="lista-produtos" class="produtos-grid"></div>
+        </section>
+      </div>
+    </main>
+    
+    <footer class="py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <img
+              src="../img/logotipo.jpg"
+              alt="Logotipo da cidade de Baturité"
+              width="170"
+            />
+            <p>Produtos locais, relações mais próximas.</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Links relevantes</h5>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Equipe</h5>
+            <p>Alfredo Borges do Nascimento Neto</p>
+            <p>Francisco Lucas Gomes Almeida</p>
+            <p>Ryan Lopes Braga Brito</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h5>Contato</h5>
+            <p>suporte@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/feirante.js"></script>
+    <script type="module" src="../js/nav-conta.js"></script>
+</body>
+</html>
