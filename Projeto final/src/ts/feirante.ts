@@ -29,12 +29,17 @@ async function carregarBarraca(): Promise<void> {
     obterElemento<HTMLElement>('#whatsapp-barraca').textContent = banca.whatsapp
       ? `WhatsApp: ${banca.whatsapp}` : 'WhatsApp não informado';
 
+    const foto = obterElemento<HTMLImageElement>('#foto-feirante');
     if (banca.foto) {
-      const foto = obterElemento<HTMLImageElement>('#foto-feirante');
       foto.src = new URL(banca.foto.url, API_URL.replace('/api', '')).href;
       foto.alt = banca.foto.alternativeText || `Banca ${banca.nome_da_barraca}`;
-      obterElemento<HTMLElement>('#foto-barraca').hidden = false;
+      foto.classList.remove('foto-banca--logo');
+    } else {
+      foto.src = '../img/logotipo.jpg';
+      foto.alt = `Logo da Feira Digital para ${banca.nome_da_barraca}`;
+      foto.classList.add('foto-banca--logo');
     }
+    obterElemento<HTMLElement>('#foto-barraca').hidden = false;
 
     const lista = obterElemento<HTMLElement>('#lista-produtos');
     for (const produto of banca.produtos) lista.appendChild(criarCardProduto(produto));

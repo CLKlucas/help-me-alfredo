@@ -16,14 +16,18 @@ async function carregarFeirantes(): Promise<void> {
       coluna.className = 'col-12 col-md-6 col-lg-4';
       const card = document.createElement('article');
       card.className = 'card h-100';
+      const foto = document.createElement('img');
+      foto.className = 'card-img-top foto-banca';
+      foto.loading = 'lazy';
       if (banca.foto) {
-        const foto = document.createElement('img');
         foto.src = new URL(banca.foto.url, API_URL.replace('/api', '')).href;
         foto.alt = banca.foto.alternativeText || `Banca ${banca.nome_da_barraca}`;
-        foto.className = 'card-img-top foto-banca';
-        foto.loading = 'lazy';
-        card.appendChild(foto);
+      } else {
+        foto.src = '../img/logotipo.jpg';
+        foto.alt = `Logo da Feira Digital para ${banca.nome_da_barraca}`;
+        foto.classList.add('foto-banca--logo');
       }
+      card.appendChild(foto);
       const corpo = document.createElement('div');
       corpo.className = 'card-body d-flex flex-column p-4';
       const nome = document.createElement('h2');

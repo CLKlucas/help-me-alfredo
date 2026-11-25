@@ -69,7 +69,11 @@ export default factories.createCoreController('api::feirante.feirante', ({ strap
       imagem: produto.imagem
         ? { url: produto.imagem.url, alternativeText: produto.imagem.alternativeText }
         : null,
-      feirante: { nome_da_barraca: banca.nome_da_barraca || 'Banca da feira' },
+      feirante: {
+        documentId: banca.documentId,
+        nome_da_barraca: banca.nome_da_barraca || 'Banca da feira',
+        whatsapp: banca.whatsapp,
+      },
     }));
 
     ctx.body = { ...dadosPublicos(banca), produtos: catalogo };

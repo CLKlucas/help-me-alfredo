@@ -34,6 +34,34 @@ export interface Feirante {
   produtos?: Produto[];
 }
 
+export interface ItemCarrinho {
+  produto: string;
+  nome: string;
+  preco: number;
+  quantidade: number;
+  feirante: string;
+  nomeDaBanca: string;
+}
+
+export interface ItemPedido {
+  produto: string;
+  nome: string;
+  preco: number;
+  quantidade: number;
+  subtotal: number;
+}
+
+export interface Pedido {
+  documentId: string;
+  itens: ItemPedido[];
+  total: number;
+  status: 'pendente' | 'aceito' | 'concluido' | 'cancelado';
+  observacao: string;
+  createdAt: string;
+  feirante: { nome: string } | null;
+  consumidor: { nome: string; whatsapp: string } | null;
+}
+
 export interface Consumidor {
   id?: number;
   documentId?: string;
@@ -56,7 +84,7 @@ export interface Produto {
   preco: number | string;
   disponivel: boolean;
   imagem?: ImagemProduto | null;
-  feirante?: Pick<Feirante, 'nome_da_barraca'> | null;
+  feirante?: Pick<Feirante, 'documentId' | 'nome_da_barraca' | 'whatsapp'> | null;
 }
 
 export interface BancaPublica {

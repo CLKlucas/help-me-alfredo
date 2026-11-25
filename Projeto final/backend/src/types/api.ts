@@ -70,7 +70,10 @@ export interface ProdutoBanco {
   disponivel: boolean;
   imagem?: ImagemBanco | null;
   feirante?: {
+    id?: number;
+    documentId?: string;
     nome_da_barraca?: string | null;
+    whatsapp?: string | number | null;
   } | null;
 }
 
@@ -82,6 +85,8 @@ export interface ProdutoPublico {
   disponivel: boolean;
   imagem: ImagemBanco | null;
   feirante: {
+    documentId?: string;
     nome_da_barraca?: string | null;
+    whatsapp?: string | number | null;
   } | null;
 }

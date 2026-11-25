@@ -4,3 +4,9 @@
   height: 220px;
   object-fit: cover;
 }
+
+.foto-banca--logo {
+  padding: 1rem;
+  background-color: #ffffff;
+  object-fit: contain;
+}

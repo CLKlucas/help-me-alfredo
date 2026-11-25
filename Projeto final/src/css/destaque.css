@@ -120,9 +120,15 @@ body {
   text-decoration: none;
 }
 
-.produto-card a {
-  margin: auto 22px 22px;
-  text-align: center;
+.produto-adicionar {
+  margin: auto 22px 12px;
+}
+
+.produto-mensagem {
+  min-height: 24px;
+  margin: 0 22px 16px;
+  color: #334155;
+  font-size: 0.875rem;
 }
 
 .produto-preco {

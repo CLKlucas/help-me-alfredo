@@ -25,6 +25,9 @@
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#menu-principal"
+            aria-controls="menu-principal"
+            aria-expanded="false"
+            aria-label="Menu de navegação"
           >
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -64,141 +67,59 @@
     <main id="conteudo" class="flex-grow-1">
       <section class="texto_pedidos py-4 text-center">
         <div class="container">
-          <p class="chamada">MEUS PEDIDOS</p>
-          <h1 class="titulo-pagina">Confira os seus pedidos!</h1>
-          <p>Veja o que já pediu e o status de cada pedido.</p>
+          <p class="chamada">SEUS PEDIDOS</p>
+          <h1 class="titulo-pagina">Carrinho e pedidos</h1>
+          <p>Revise os itens do carrinho ou acompanhe o andamento dos pedidos.</p>
         </div>
       </section>
 
-      <div class="container">
-        <section class="pedidos">
-          <div class="accordion-item m-2 p-1 border rounded-3" id="1">
-            <button
-              type="button"
-              class="accordion-button"
-              data-bs-toggle="collapse"
-              data-bs-target="#pedido-2"
-            >
-              Pedido #2 - Bazar da Rosa - Recebido
-            </button>
-            <div
-              id="pedido-2"
-              class="accordion-body accordion-collapse collapse"
-            >
-              <div class="table-responsive">
-                <table class="table align-middle">
-                  <thead>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                    <th>Peso</th>
-                    <th>Preço Unit.</th>
-                    <th>Subtotal</th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Blusa</td>
-                      <td>1</td>
-                      <td>-</td>
-                      <td>R$ 35,00</td>
-                      <td>R$ 35,00</td>
-                    </tr>
-                    <tr>
-                      <td>Calça</td>
-                      <td>2</td>
-                      <td>-</td>
-                      <td>R$ 60,00</td>
-                      <td>R$ 120,00</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p class="text-center fw-bold">Total do pedido: R$ 155,00</p>
-              </div>
-            </div>
-          </div>
-        </section>
+      <section class="container py-4" id="area-carrinho" aria-labelledby="titulo-carrinho">
+        <h2 id="titulo-carrinho" class="h3 fw-bold">Meu carrinho</h2>
+        <p id="mensagem-carrinho" class="text-secondary" role="status" aria-live="polite"></p>
+        <div id="lista-carrinho" class="d-grid gap-3"></div>
+        <a id="entrar-para-pedir" class="btn btn-primary mt-3" href="login.html?retorno=pedidos" hidden>Entre para finalizar seus pedidos</a>
+      </section>
 
-        <section class="pedidos">
-          <div class="accordion-item m-2 p-1 border rounded-3" id="1">
-            <button
-              type="button"
-              class="accordion-button"
-              data-bs-toggle="collapse"
-              data-bs-target="#pedido-1"
-            >
-              Pedido #1 - Horta do Seu Zé - Recebido
-            </button>
-            <div
-              id="pedido-1"
-              class="accordion-body accordion-collapse collapse"
-            >
-              <div class="table-responsive">
-                <table class="table align-middle">
-                  <thead>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                    <th>Peso</th>
-                    <th>Preço Unit.</th>
-                    <th>Subtotal</th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Banana Prata</td>
-                      <td>-</td>
-                      <td>1 kg</td>
-                      <td>R$ 3,50</td>
-                      <td>R$ 3,50</td>
-                    </tr>
-                    <tr>
-                      <td>Maçã Verde</td>
-                      <td>7</td>
-                      <td>-</td>
-                      <td>R$ 2,60</td>
-                      <td>R$ 18,20</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p class="text-center fw-bold">Total do pedido: R$ 21,70</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="text-center my-4">
-        <a href="destaque.html" class="btn btn-primary px-4 py-3 fw-bold"
-          >Explorar produtos</a
-        >
-      </div>
+      <section class="container py-4" id="secao-historico" aria-labelledby="titulo-historico" hidden>
+        <h2 id="titulo-historico" class="h3 fw-bold">Meus pedidos</h2>
+        <p id="mensagem-pedidos" class="text-secondary" role="status" aria-live="polite"></p>
+        <div id="lista-pedidos" class="d-grid gap-3"></div>
+      </section>
     </main>
 
-    <footer class="py-4">
+    <footer class="py-4 footer-feira">
       <div class="container">
         <div class="row">
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-4">
             <img
               src="../img/logotipo.jpg"
-              alt="Logotipo da cidade de Baturité"
+              alt="Feira Digital de Baturité"
+              class="marca-footer"
               width="170"
             />
             <p>Produtos locais, relações mais próximas.</p>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-4">
             <h5>Links relevantes</h5>
+            <ul class="list-unstyled footer-links mb-0">
+              <li><a class="link-light" href="inicio.html">Início</a></li>
+              <li><a class="link-light" href="destaque.html">Produtos</a></li>
+              <li><a class="link-light" href="feirantes.html">Feirantes</a></li>
+              <li><a class="link-light" href="pedidos.html">Pedidos</a></li>
+              <li><a class="link-light" href="sobre.html">Sobre</a></li>
+            </ul>
           </div>
-          <div class="col-12 col-md-3">
-            <h5>Equipe</h5>
-            <p>Alfredo Borges do Nascimento Neto</p>
-            <p>Francisco Lucas Gomes Almeida</p>
-            <p>Ryan Lopes Braga Brito</p>
-          </div>
-          <div class="col-12 col-md-3">
-            <h5>Contato</h5>
-            <p>suporte@gmail.com</p>
+          <div class="col-12 col-md-4 footer-localizacao">
+            <h5>Onde acontece a feira</h5>
+            <address class="mb-2">Praça de Santa Luzia, Centro, Baturité - CE</address>
+            <a class="link-light" href="https://www.google.com/maps/search/?api=1&amp;query=Pra%C3%A7a+de+Santa+Luzia%2C+Centro%2C+Baturit%C3%A9%2C+CE" target="_blank" rel="noopener noreferrer">Abrir no mapa</a>
+            <p class="small mt-3 mb-0">Feira livre aos sábados. Para falar com um feirante, acesse a página da banca.</p>
           </div>
         </div>
       </div>
     </footer>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/pedidos.js"></script>
     <script type="module" src="../js/nav-conta.js"></script>
   </body>
 </html>

@@ -30,6 +30,9 @@
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#menu-principal"
+            aria-controls="menu-principal"
+            aria-expanded="false"
+            aria-label="Menu de navegação"
           >
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -86,10 +89,10 @@
                     <form id="login-form">
 
                         <label class="form-label fw-semibold" for="email">E-mail</label>
-                        <input class="form-control mb-3" type="email" id="email" name="email" required>
+                        <input class="form-control mb-3" type="email" id="email" name="email" autocomplete="email" required>
 
                         <label class="form-label fw-semibold" for="senha">Senha</label>
-                        <input class="form-control mb-3" type="password" id="senha" name="senha" minlength="8" required>
+                        <input class="form-control mb-3" type="password" id="senha" name="senha" autocomplete="current-password" minlength="8" required>
 
                         
                         <p id="mensagem" role="status" aria-live="polite"></p>
@@ -104,29 +107,33 @@
         </div>
     </main>
 
-    <footer class="py-4">
+    <footer class="py-4 footer-feira">
       <div class="container">
         <div class="row">
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-4">
             <img
               src="../img/logotipo.jpg"
-              alt="Logotipo da cidade de Baturité"
+              alt="Feira Digital de Baturité"
+              class="marca-footer"
               width="170"
             />
             <p>Produtos locais, relações mais próximas.</p>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-4">
             <h5>Links relevantes</h5>
+            <ul class="list-unstyled footer-links mb-0">
+              <li><a class="link-light" href="inicio.html">Início</a></li>
+              <li><a class="link-light" href="destaque.html">Produtos</a></li>
+              <li><a class="link-light" href="feirantes.html">Feirantes</a></li>
+              <li><a class="link-light" href="pedidos.html">Pedidos</a></li>
+              <li><a class="link-light" href="sobre.html">Sobre</a></li>
+            </ul>
           </div>
-          <div class="col-12 col-md-3">
-            <h5>Equipe</h5>
-            <p>Alfredo Borges do Nascimento Neto</p>
-            <p>Francisco Lucas Gomes Almeida</p>
-            <p>Ryan Lopes Braga Brito</p>
-          </div>
-          <div class="col-12 col-md-3">
-            <h5>Contato</h5>
-            <p>suporte@gmail.com</p>
+          <div class="col-12 col-md-4 footer-localizacao">
+            <h5>Onde acontece a feira</h5>
+            <address class="mb-2">Praça de Santa Luzia, Centro, Baturité - CE</address>
+            <a class="link-light" href="https://www.google.com/maps/search/?api=1&amp;query=Pra%C3%A7a+de+Santa+Luzia%2C+Centro%2C+Baturit%C3%A9%2C+CE" target="_blank" rel="noopener noreferrer">Abrir no mapa</a>
+            <p class="small mt-3 mb-0">Feira livre aos sábados. Para falar com um feirante, acesse a página da banca.</p>
           </div>
         </div>
       </div>

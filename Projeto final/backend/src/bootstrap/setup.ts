@@ -34,6 +34,7 @@ const PERMISSOES_AUTENTICADO: string[] = [
   'api::cadastro.cadastro.me',
   'api::perfil.perfil.find',
   'api::perfil.perfil.update',
+  'api::pedido.pedido.find',
 ];
 
 const PERMISSOES_POR_PAPEL: Record<string, string[]> = {
@@ -44,9 +45,15 @@ const PERMISSOES_POR_PAPEL: Record<string, string[]> = {
     'api::produto.produto.create',
     'api::produto.produto.find',
     'api::produto.produto.delete',
+    'api::pedido.pedido.updateStatus',
     'plugin::upload.content-api.upload',
   ],
 };
+
+PERMISSOES_POR_PAPEL.Consumidor.push(
+  'api::pedido.pedido.create',
+  'api::pedido.pedido.updateStatus'
+);
 
 async function garantirPapel(
   strapi: Core.Strapi,

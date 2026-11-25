@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pedidos",
+  "info": {
+    "singularName": "pedido",
+    "pluralName": "pedidos",
+    "displayName": "Pedido"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "consumidor": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::consumidor.consumidor"
+    },
+    "feirante": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::feirante.feirante"
+    },
+    "itens": {
+      "type": "json",
+      "required": true
+    },
+    "total": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pendente",
+        "aceito",
+        "concluido",
+        "cancelado"
+      ],
+      "default": "pendente",
+      "required": true
+    },
+    "observacao": {
+      "type": "text"
+    }
+  }
+}

@@ -177,7 +177,9 @@ const produtoController = {
         : null,
       feirante: produto.feirante
         ? {
+          documentId: produto.feirante.documentId,
             nome_da_barraca: produto.feirante.nome_da_barraca,
+            whatsapp: produto.feirante.whatsapp,
           }
         : null,
     }));

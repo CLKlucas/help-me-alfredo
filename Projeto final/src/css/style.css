@@ -11904,11 +11904,39 @@ textarea.form-control-lg {
 footer {
   font-size: 14px;
   color: #fff;
-  background-color: #088344;
+  background-color: #066836;
+  border-top: 4px solid #FDCB57;
+}
+
+footer .marca-footer {
+  max-width: 100%;
+  height: auto;
+}
+
+footer .footer-links li + li {
+  margin-top: 0.35rem;
+}
+
+footer address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+footer a {
+  color: #fff;
+  text-underline-offset: 0.2em;
+}
+
+footer a.link-light:hover,
+footer a.link-light:focus,
+footer a:focus-visible {
+  color: #FDCB57 !important;
 }
 
 footer h5, footer .h5 {
   font-size: 18px;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
 }
 
 .titulo-pagina,

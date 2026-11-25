@@ -27,6 +27,7 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
     mensagem.textContent = 'Carregando sua conta...';
 
     const conta = await obterMinhaConta();
+    const retorno = new URLSearchParams(window.location.search).get('retorno');
 
     if (conta.tipo === 'feirante') {
       window.location.href = 'painel-feirante.html';
@@ -34,7 +35,7 @@ formulario.addEventListener('submit', async (event: SubmitEvent) => {
     }
 
     if (conta.tipo === 'consumidor') {
-      window.location.href = 'inicio.html';
+      window.location.href = retorno === 'pedidos' ? 'pedidos.html' : 'inicio.html';
       return;
     }
 

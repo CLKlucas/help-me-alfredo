@@ -1,4 +1,5 @@
 import { API_URL } from './api.js';
+import { adicionarAoCarrinho } from './carrinho.js';
 import type { Produto } from './types.js';
 
 function formatarPreco(preco: Produto['preco']): string {
@@ -42,11 +43,21 @@ export function criarCardProduto(produto: Produto): HTMLElement {
   barraca.textContent =
     `Vendido por: ${produto.feirante?.nome_da_barraca || 'Feirante da feira'}`;
 
-  const link = document.createElement('a');
-  link.href = 'pedidos.html';
-  link.textContent = 'Fazer pedido';
+  const botao = document.createElement('button');
+  botao.type = 'button';
+  botao.className = 'btn btn-success produto-adicionar';
+  botao.textContent = 'Adicionar ao carrinho';
+  const mensagem = document.createElement('p');
+  mensagem.className = 'produto-mensagem';
+  mensagem.setAttribute('role', 'status');
+  mensagem.setAttribute('aria-live', 'polite');
+  botao.addEventListener('click', () => {
+    mensagem.textContent = adicionarAoCarrinho(produto)
+      ? 'Adicionado ao carrinho.'
+      : 'Este produto não está disponível para pedidos.';
+  });
 
-  card.append(nome, descricao, preco, barraca, link);
+  card.append(nome, descricao, preco, barraca, botao, mensagem);
 
   return card;
 }
