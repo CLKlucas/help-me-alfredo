@@ -8,6 +8,24 @@ if (nav && usuario && sessionStorage.getItem('jwt')) {
     if (item) item.hidden = true;
   }
   const lista = nav.querySelector('.navbar-nav:last-child');
+  const itemPedidos = document.createElement('li');
+  itemPedidos.className = 'nav-item';
+  itemPedidos.innerHTML = `
+    <a class="btn btn-outline-primary p-2 me-lg-2 mb-2 mb-lg-0" href="pedidos.html" aria-label="Meus pedidos" title="Meus pedidos">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        aria-hidden="true" focusable="false">
+        <path d="M5 7h14l1 14H4L5 7Z"/>
+        <path d="M9 9V6a3 3 0 0 1 6 0v3"/>
+      </svg>
+    </a>`;
+  if (window.location.pathname.endsWith('/pedidos.html')) {
+    const linkPedidos = itemPedidos.querySelector('a');
+    linkPedidos?.classList.add('active');
+    linkPedidos?.setAttribute('aria-current', 'page');
+  }
+  lista?.appendChild(itemPedidos);
+
   const item = document.createElement('li');
   item.className = 'nav-item dropdown';
   item.innerHTML = `
@@ -39,7 +57,7 @@ if (nav && usuario && sessionStorage.getItem('jwt')) {
       link.setAttribute('aria-current', 'page');
     }
     itemPainel.appendChild(link);
-    lista?.insertBefore(itemPainel, item);
+    lista?.insertBefore(itemPainel, itemPedidos);
   }).catch((erro) => {
     console.error('Não foi possível verificar o acesso ao painel:', erro);
   });
