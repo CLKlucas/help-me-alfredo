@@ -574,6 +574,10 @@ export interface ApiPedidoPedido extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     feirante: Schema.Attribute.Relation<'manyToOne', 'api::feirante.feirante'>;
+    feirante_comprador: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::feirante.feirante'
+    >;
     itens: Schema.Attribute.JSON & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

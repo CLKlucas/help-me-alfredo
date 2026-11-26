@@ -207,6 +207,8 @@ Para conferir os tipos sem gerar arquivos:
 npm run typecheck
 ```
 
+`npm run dev:frontend` compila o TypeScript antes de iniciar o servidor. Depois de receber alterações pelo Git, se usar a extensão Live Server, execute `npm run build:frontend` antes de abrir o site. A pasta `js/` é gerada localmente e não vem pelo Git; arquivos antigos podem manter botões e comportamentos anteriores, mesmo com o TypeScript atualizado.
+
 Durante o desenvolvimento do frontend, use `npm --prefix "Projeto final/src" run build:watch` em outro terminal para recompilar automaticamente a cada alteração em `ts/`. Não edite os arquivos de `js/`: eles são gerados e ignorados pelo Git.
 
 No backend, `npm run dev:backend` (ou `npm run build:backend`) já compila os `.ts` para `Projeto final/backend/dist`, de onde o Strapi carrega as configurações, as rotas e os content types. A pasta `dist/` é gerada e não deve ser versionada.
@@ -233,7 +235,7 @@ Ordem sugerida na primeira execução: `npm run setup` → `npm run build` → `
 | Acesso | Configuração compartilhada |
 | --- | --- |
 | Visitante | Cadastro, catálogo de produtos, lista de feirantes e página de cada barraca. Essas rotas usam `auth: false` nos arquivos de rotas. |
-| Consumidor e Feirante | Sessão, consulta da própria conta e leitura/edição do próprio perfil. As permissões comuns ficam em `PERMISSOES_AUTENTICADO`. |
+| Consumidor e Feirante | Sessão, consulta da própria conta, leitura/edição do próprio perfil e acesso aos pedidos. Ambos podem criar compras e cancelar as próprias compras pendentes; as permissões ficam nas listas de cada papel. |
 | Somente Feirante | Cadastrar, listar e excluir os próprios produtos; enviar arquivos; remover a foto da própria banca. As permissões adicionais ficam em `PERMISSOES_POR_PAPEL.Feirante`. |
 
 As permissões incluídas nas funcionalidades recentes são `api::perfil.perfil.find`, `api::perfil.perfil.update`, `api::perfil.perfil.removerFoto` e `api::produto.produto.delete`. Os controllers conferem a conta autenticada para que cada pessoa altere apenas os próprios dados.
@@ -322,3 +324,15 @@ A aba **Produtos** mostra o catálogo geral de produtos disponíveis. Os arquivo
 No painel do feirante, cada produto tem um botão **Excluir produto**. O navegador pede confirmação com `window.confirm`; cancelar não envia nenhuma requisição. Ao confirmar, `DELETE /api/produtos/:documentId` verifica a conta e busca o produto ligado à própria barraca antes de apagá-lo. Consumidores e visitantes não têm essa permissão. Depois, o frontend recarrega a lista e o total de produtos. A imagem enviada à biblioteca do Strapi é preservada. Reinicie o backend para carregar a rota e adicionar automaticamente a permissão de exclusão ao papel Feirante.
 
 Em **Meu perfil**, a descrição da banca mostra oito linhas (`rows="8"`); o endereço do consumidor continua com quatro. O botão **Salvar alterações** usa `btn btn-outline-primary`: contorno e texto azuis, com o fundo branco do formulário aparecendo por dentro. O atalho duplicado para o painel foi retirado do formulário, pois já existe na navbar.
+
+## Carrinho e pedidos
+
+O catálogo geral e a página de cada barraca usam **Adicionar ao carrinho**. Os itens ficam em `localStorage` no navegador, agrupados por banca, e aparecem em `html/pedidos.html`. Alterar quantidades e remover itens atualiza os subtotais. Para finalizar, é preciso entrar como consumidor ou feirante; cada banca recebe um pedido separado. Os valores finais e a disponibilidade são conferidos pelo backend.
+
+Todas as contas veem **Meu carrinho** e **Meus pedidos** (compras). Feirantes também veem **Pedidos recebidos pela barraca** (vendas), em uma seção separada. `GET /api/pedidos?visao=compras` lista as compras da conta; `GET /api/pedidos` mantém a listagem de vendas para feirantes e de compras para consumidores. O comprador pode cancelar uma compra pendente; o vendedor pode aceitar, concluir ou cancelar conforme o status atual. O backend verifica o vínculo do usuário com o pedido em cada ação.
+
+No banco, `Pedido.consumidor` continua identificando compras de consumidores; `Pedido.feirante_comprador` identifica compras feitas por feirantes; `Pedido.feirante` continua sendo a banca que recebe o pedido. Os registros anteriores de consumidores continuam usando a mesma relação. Reinicie o backend para carregar o campo novo e a permissão `api::pedido.pedido.create` do papel Feirante, configurada automaticamente em `src/bootstrap/setup.ts`.
+
+Se ainda aparecer o botão antigo **Fazer pedido**, execute `npm run build:frontend` na raiz e recarregue a página com Ctrl+Shift+R. Esse botão vinha do JavaScript gerado antigo, que apenas levava à página de pedidos. `npm run dev:frontend` agora compila antes de iniciar o servidor; quem usa Live Server precisa compilar após receber alterações de TypeScript pelo Git.
+
+O botão **Falar com comprador**, nos pedidos recebidos, é um botão visual com `type="button"`, sem ação associada ao clique. Ele não abre o WhatsApp, não navega e não envia requisições.

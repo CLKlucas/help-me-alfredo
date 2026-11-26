@@ -21,6 +21,11 @@
       "relation": "manyToOne",
       "target": "api::feirante.feirante"
     },
+    "feirante_comprador": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::feirante.feirante"
+    },
     "itens": {
       "type": "json",
       "required": true

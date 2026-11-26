@@ -12,7 +12,7 @@
     "build:backend": "npm --prefix \"Projeto final/backend\" run build",
     "typecheck": "npm --prefix \"Projeto final/src\" run typecheck && npm --prefix \"Projeto final/backend\" run typecheck",
     "compilar-css": "npm --prefix \"Projeto final/src\" run compilar-css",
-    "dev:frontend": "cd \"Projeto final/src\" && python3 -m http.server 8000 --bind 127.0.0.1",
+    "dev:frontend": "npm run build:frontend && cd \"Projeto final/src\" && python3 -m http.server 8000 --bind 127.0.0.1",
     "dev:backend": "npm --prefix \"Projeto final/backend\" run develop"
   }
 }

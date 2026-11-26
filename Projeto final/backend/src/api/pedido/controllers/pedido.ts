@@ -48,6 +48,7 @@ interface PedidoBanco {
   createdAt: string;
   consumidor?: PerfilPedido | null;
   feirante?: PerfilPedido | null;
+  feirante_comprador?: PerfilPedido | null;
 }
 
 async function obterConta(ctx: Context): Promise<ContaPedido | null> {
@@ -86,6 +87,7 @@ function paraCentavos(valor: number | string): number {
 }
 
 function formatarPedido(pedido: PedidoBanco, tipo: TipoPedido) {
+  const comprador = pedido.consumidor || pedido.feirante_comprador;
   return {
     documentId: pedido.documentId,
     itens: pedido.itens,
@@ -96,10 +98,10 @@ function formatarPedido(pedido: PedidoBanco, tipo: TipoPedido) {
     feirante: pedido.feirante
       ? { nome: pedido.feirante.nome_da_barraca || 'Feirante' }
       : null,
-    consumidor: tipo === 'feirante' && pedido.consumidor
+    consumidor: tipo === 'feirante' && comprador
       ? {
-          nome: pedido.consumidor.nome || 'Consumidor',
-          whatsapp: String(pedido.consumidor.whatsapp || ''),
+          nome: comprador.nome || comprador.nome_da_barraca || 'Comprador',
+          whatsapp: String(comprador.whatsapp || ''),
         }
       : null,
   };
@@ -110,24 +112,24 @@ const controller = {
     const conta = await obterConta(ctx);
     if (!conta) return;
 
-    const relacao = conta.tipo === 'consumidor' ? 'consumidor' : 'feirante';
+    const compras = conta.tipo === 'consumidor' || ctx.query.visao === 'compras';
+    const relacao = compras
+      ? conta.tipo === 'consumidor' ? 'consumidor' : 'feirante_comprador'
+      : 'feirante';
     const pedidos: PedidoBanco[] = await strapi.db
       .query('api::pedido.pedido')
       .findMany({
         where: { [relacao]: { id: conta.perfil.id } },
-        populate: { consumidor: true, feirante: true },
+        populate: { consumidor: true, feirante: true, feirante_comprador: true },
         orderBy: { createdAt: 'desc' },
       });
 
-    ctx.body = pedidos.map((pedido) => formatarPedido(pedido, conta.tipo));
+    ctx.body = pedidos.map((pedido) => formatarPedido(pedido, compras ? 'consumidor' : 'feirante'));
   },
 
   async create(ctx: Context): Promise<void> {
     const conta = await obterConta(ctx);
     if (!conta) return;
-    if (conta.tipo !== 'consumidor') {
-      return ctx.forbidden('Apenas consumidores podem criar pedidos.');
-    }
 
     const body = (ctx.request.body ?? {}) as Record<string, unknown>;
     if (!Array.isArray(body.itens) || body.itens.length === 0 || body.itens.length > 30) {
@@ -194,9 +196,10 @@ const controller = {
       ? body.observacao.trim().slice(0, 1000)
       : '';
 
+    const relacaoComprador = conta.tipo === 'consumidor' ? 'consumidor' : 'feirante_comprador';
     const pedido = await strapi.documents('api::pedido.pedido').create({
       data: {
-        consumidor: conta.perfil.documentId,
+        [relacaoComprador]: conta.perfil.documentId,
         feirante: feirante.documentId,
         itens,
         total: totalCentavos / 100,
@@ -229,16 +232,23 @@ const controller = {
       return ctx.forbidden('Consumidores só podem cancelar seus próprios pedidos.');
     }
 
-    const relacao = conta.tipo === 'consumidor' ? 'consumidor' : 'feirante';
+    const relacaoComprador = conta.tipo === 'consumidor' ? 'consumidor' : 'feirante_comprador';
+    const vinculos = [{ [relacaoComprador]: { id: conta.perfil.id } }];
+    if (conta.tipo === 'feirante') vinculos.push({ feirante: { id: conta.perfil.id } });
     const pedido: PedidoBanco | null = await strapi.db
       .query('api::pedido.pedido')
       .findOne({
         where: {
           documentId: ctx.params.documentId,
-          [relacao]: { id: conta.perfil.id },
+          $or: vinculos,
         },
+        populate: { feirante: true },
       });
     if (!pedido) return ctx.notFound('Pedido não encontrado na sua conta.');
+    const vendedor = conta.tipo === 'feirante' && pedido.feirante?.id === conta.perfil.id;
+    if (!vendedor && status !== 'cancelado') {
+      return ctx.forbidden('Compradores só podem cancelar seus próprios pedidos.');
+    }
 
     const transicoes: Record<StatusPedido, StatusPedido[]> = {
       pendente: ['aceito', 'cancelado'],
@@ -246,9 +256,9 @@ const controller = {
       concluido: [],
       cancelado: [],
     };
-    const podeAtualizar = conta.tipo === 'consumidor'
-      ? pedido.status === 'pendente' && status === 'cancelado'
-      : transicoes[pedido.status].includes(status);
+    const podeAtualizar = vendedor
+      ? transicoes[pedido.status].includes(status)
+      : pedido.status === 'pendente' && status === 'cancelado';
     if (!podeAtualizar) {
       return ctx.badRequest('Este pedido não pode receber essa alteração de status.');
     }

@@ -15,7 +15,6 @@ interface MinhaContaResumo {
 
 type ProximoStatus = 'aceito' | 'concluido' | 'cancelado';
 
-const areaCarrinho = obterElemento<HTMLElement>('#area-carrinho');
 const listaCarrinho = obterElemento<HTMLElement>('#lista-carrinho');
 const mensagemCarrinho = obterElemento<HTMLElement>('#mensagem-carrinho');
 const entrarParaPedir = obterElemento<HTMLAnchorElement>('#entrar-para-pedir');
@@ -23,6 +22,9 @@ const secaoHistorico = obterElemento<HTMLElement>('#secao-historico');
 const tituloHistorico = obterElemento<HTMLElement>('#titulo-historico');
 const mensagemPedidos = obterElemento<HTMLElement>('#mensagem-pedidos');
 const listaPedidos = obterElemento<HTMLElement>('#lista-pedidos');
+const secaoRecebidos = obterElemento<HTMLElement>('#secao-recebidos');
+const mensagemRecebidos = obterElemento<HTMLElement>('#mensagem-recebidos');
+const listaRecebidos = obterElemento<HTMLElement>('#lista-recebidos');
 
 function dinheiro(valor: number): string {
   return Number(valor).toLocaleString('pt-BR', {
@@ -133,8 +135,8 @@ async function finalizarPedido(
       }),
     });
     removerPedidoDoCarrinho(itens.map((item) => item.produto));
-    mensagemCarrinho.textContent = `Pedido enviado para ${itens[0].nomeDaBanca}.`;
     renderizarCarrinho();
+    mensagemCarrinho.textContent = `Pedido enviado para ${itens[0].nomeDaBanca}.`;
     await carregarPedidos();
   } catch (erro) {
     mensagemCarrinho.textContent = obterMensagemErro(erro);
@@ -150,11 +152,6 @@ function statusLegivel(status: Pedido['status']): string {
     cancelado: 'Cancelado',
   };
   return nomes[status];
-}
-
-function linkWhatsApp(telefone: string): string {
-  const numero = telefone.replace(/\D/g, '');
-  return `https://wa.me/${numero.startsWith('55') ? numero : `55${numero}`}`;
 }
 
 function renderizarPedido(pedido: Pedido, tipo: 'consumidor' | 'feirante'): HTMLElement {
@@ -190,10 +187,8 @@ function renderizarPedido(pedido: Pedido, tipo: 'consumidor' | 'feirante'): HTML
   corpo.appendChild(elemento('p', 'fw-bold', `Total: ${dinheiro(pedido.total)}`));
 
   if (tipo === 'feirante' && pedido.consumidor?.whatsapp) {
-    const contato = elemento('a', 'btn btn-outline-primary me-2', 'Falar com consumidor');
-    contato.href = linkWhatsApp(pedido.consumidor.whatsapp);
-    contato.target = '_blank';
-    contato.rel = 'noopener noreferrer';
+    const contato = elemento('button', 'btn btn-outline-primary me-2', 'Falar com comprador');
+    contato.type = 'button';
     corpo.appendChild(contato);
   }
 
@@ -247,23 +242,35 @@ async function atualizarStatus(
   }
 }
 
+async function carregarListaPedidos(
+  rota: string,
+  lista: HTMLElement,
+  mensagem: HTMLElement,
+  tipo: 'consumidor' | 'feirante'
+): Promise<void> {
+  mensagem.textContent = 'Carregando pedidos...';
+  try {
+    const pedidos = await apiRequest<Pedido[]>(rota);
+    lista.replaceChildren();
+    mensagem.textContent = pedidos.length ? '' : tipo === 'feirante'
+      ? 'Você ainda não recebeu pedidos.' : 'Você ainda não fez pedidos.';
+    pedidos.forEach((pedido) => lista.appendChild(renderizarPedido(pedido, tipo)));
+  } catch (erro) {
+    mensagem.textContent = obterMensagemErro(erro);
+  }
+}
+
 async function carregarPedidos(): Promise<void> {
   try {
     const conta = await apiRequest<MinhaContaResumo>('/minha-conta');
     const tipo = conta.tipo;
-    areaCarrinho.hidden = tipo !== 'consumidor';
     secaoHistorico.hidden = false;
-    tituloHistorico.textContent = tipo === 'feirante' ? 'Pedidos recebidos' : 'Meus pedidos';
-    mensagemPedidos.textContent = 'Carregando pedidos...';
-
-    const pedidos = await apiRequest<Pedido[]>('/pedidos');
-    listaPedidos.replaceChildren();
-    mensagemPedidos.textContent = pedidos.length
-      ? ''
-      : tipo === 'feirante'
-        ? 'Você ainda não recebeu pedidos.'
-        : 'Você ainda não fez pedidos.';
-    pedidos.forEach((pedido) => listaPedidos.appendChild(renderizarPedido(pedido, tipo)));
+    tituloHistorico.textContent = 'Meus pedidos';
+    secaoRecebidos.hidden = tipo !== 'feirante';
+    await carregarListaPedidos('/pedidos?visao=compras', listaPedidos, mensagemPedidos, 'consumidor');
+    if (tipo === 'feirante') {
+      await carregarListaPedidos('/pedidos', listaRecebidos, mensagemRecebidos, 'feirante');
+    }
   } catch (erro) {
     mensagemPedidos.textContent = obterMensagemErro(erro);
   }

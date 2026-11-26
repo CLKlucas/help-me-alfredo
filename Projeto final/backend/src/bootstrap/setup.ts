@@ -38,7 +38,11 @@ const PERMISSOES_AUTENTICADO: string[] = [
 ];
 
 const PERMISSOES_POR_PAPEL: Record<string, string[]> = {
-  Consumidor: PERMISSOES_AUTENTICADO,
+  Consumidor: [
+    ...PERMISSOES_AUTENTICADO,
+    'api::pedido.pedido.create',
+    'api::pedido.pedido.updateStatus',
+  ],
   Feirante: [
     ...PERMISSOES_AUTENTICADO,
     'api::perfil.perfil.removerFoto',
@@ -46,14 +50,10 @@ const PERMISSOES_POR_PAPEL: Record<string, string[]> = {
     'api::produto.produto.find',
     'api::produto.produto.delete',
     'api::pedido.pedido.updateStatus',
+    'api::pedido.pedido.create',
     'plugin::upload.content-api.upload',
   ],
 };
-
-PERMISSOES_POR_PAPEL.Consumidor.push(
-  'api::pedido.pedido.create',
-  'api::pedido.pedido.updateStatus'
-);
 
 async function garantirPapel(
   strapi: Core.Strapi,
