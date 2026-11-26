@@ -1,0 +1,148 @@
+.sobre-hero {
+	position: relative;
+	display: block;
+	aspect-ratio: 2400 / 1792;
+	overflow: hidden;
+	color: #ffffff;
+	background-color: #194b35;
+}
+
+.sobre-hero::before {
+	position: absolute;
+	z-index: 1;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(17, 35, 25, 0.88) 0%, rgba(17, 35, 25, 0.66) 46%, rgba(17, 35, 25, 0.08) 100%);
+	content: "";
+}
+
+.sobre-hero .container {
+	position: absolute;
+	z-index: 2;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	max-width: 1240px;
+}
+
+.sobre-hero-conteudo {
+	max-width: 560px;
+}
+
+.sobre-hero .chamada {
+	color: #f7d775;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+.sobre-hero .titulo-pagina {
+	max-width: 650px;
+	color: #ffffff;
+	font-size: 2.8rem;
+}
+
+.sobre-hero .texto {
+	max-width: 580px;
+	color: #ffffff;
+	line-height: 1.8;
+}
+
+.sobre-hero .btn-success {
+	border-radius: 5px;
+}
+
+.sobre-hero-imagem {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center;
+}
+
+.baturité-explicacao .container,
+.proposito .container,
+.feira-sabado .container {
+	max-width: 900px;
+}
+
+.baturité-explicacao p.texto,
+.proposito p.texto,
+.feira-sabado p.texto {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 760px;
+	line-height: 1.8;
+}
+
+.fontes {
+	margin-top: 2rem;
+	border-radius: 4px !important;
+}
+
+.fontes h6 {
+	color: #002680;
+	font-weight: 700;
+}
+
+.fontes ul {
+	margin-bottom: 0;
+	padding-left: 1.2rem;
+}
+
+@media (max-width: 767.98px) {
+	.sobre-hero {
+		display: block;
+		aspect-ratio: 2400 / 1792;
+		overflow: hidden;
+	}
+
+	.sobre-hero::before {
+		display: block;
+		background: linear-gradient(90deg, rgba(17, 35, 25, 0.9) 0%, rgba(17, 35, 25, 0.7) 58%, rgba(17, 35, 25, 0.08) 100%);
+	}
+
+	.sobre-hero .container {
+		position: absolute;
+		z-index: 2;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		max-width: none;
+		padding: 0.75rem !important;
+		background-color: transparent;
+	}
+
+	.sobre-hero-conteudo {
+		max-width: 58%;
+	}
+
+	.sobre-hero .chamada {
+		font-size: 0.6rem;
+		margin-bottom: 0.35rem !important;
+	}
+
+	.sobre-hero .titulo-pagina {
+		max-width: none;
+		font-size: 1rem;
+		margin-bottom: 0.35rem !important;
+	}
+
+	.sobre-hero .texto {
+		font-size: 0.66rem !important;
+		line-height: 1.25 !important;
+		margin-bottom: 0.45rem !important;
+	}
+
+	.sobre-hero .btn-success {
+		padding: 0.35rem 0.55rem !important;
+		font-size: 0.68rem;
+	}
+
+	.sobre-hero-imagem {
+		z-index: 0;
+	}
+
+}

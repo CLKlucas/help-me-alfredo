@@ -11906,11 +11906,27 @@ footer {
   color: #fff;
   background-color: #066836;
   border-top: 4px solid #FDCB57;
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
+footer .row {
+  row-gap: 2rem;
 }
 
 footer .marca-footer {
+  width: 160px;
   max-width: 100%;
   height: auto;
+  margin-bottom: 0.75rem;
+  padding: 4px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+footer p {
+  max-width: 280px;
+  line-height: 1.7;
 }
 
 footer .footer-links li + li {
@@ -11925,6 +11941,11 @@ footer address {
 footer a {
   color: #fff;
   text-underline-offset: 0.2em;
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+footer a:hover {
+  color: #FDCB57;
 }
 
 footer a.link-light:hover,
@@ -11937,6 +11958,12 @@ footer h5, footer .h5 {
   font-size: 18px;
   margin-bottom: 0.75rem;
   font-weight: 700;
+  color: #FDCB57;
+}
+
+footer :focus-visible {
+  outline: 3px solid #FDCB57;
+  outline-offset: 3px;
 }
 
 .titulo-pagina,
